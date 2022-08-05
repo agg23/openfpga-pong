@@ -9,6 +9,10 @@ end entity;
 architecture tb of ic7493_tb is
   signal bit1 : std_logic := '0';
   signal bit3 : std_logic := '0';
+
+  signal r_1 : std_logic := '0';
+  signal r_2 : std_logic := '0';
+
   signal count : unsigned (3 downto 0);
 
   constant half_period : time := 1 ns;
@@ -21,7 +25,7 @@ architecture tb of ic7493_tb is
     wait for half_period;
   end procedure;
 begin
-  UUT : entity work.ic7493 port map (in_1bit => bit1, in_3bit => bit3, count => count);
+  UUT : entity work.ic7493 port map (in_1bit => bit1, in_3bit => bit3, r_1 => r_1, r_2 => r_2, count => count);
 
   process
   begin
@@ -47,6 +51,24 @@ begin
       ToggleClock(bit3);
       assert(count = to_unsigned(i, 3) & '0');
     end loop;
+
+    ToggleClock(bit1);
+    assert(count = x"F");
+
+    ToggleClock(bit3);
+    assert(count = x"1");
+
+    r_1 <= '1';
+    assert(count = x"1");
+
+    wait for half_period;
+
+    r_2 <= '1';
+    assert(count = x"0");
+
+    ToggleClock(bit1);
+    ToggleClock(bit3);
+    assert(count = x"0");
 
     stop;
   end process;
