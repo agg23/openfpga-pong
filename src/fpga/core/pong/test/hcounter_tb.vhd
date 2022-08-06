@@ -34,7 +34,7 @@ begin
 
     ToggleClock(clk);
 
-    for i in 0 to 453 loop
+    for i in 0 to 452 loop
       assert(h_reset = '0');
       ToggleClock(clk);
     end loop;
