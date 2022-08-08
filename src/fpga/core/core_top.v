@@ -402,6 +402,12 @@ module core_top (
   pong pong (
          .clk_7_159 ( clk_core_7159 ),
 
+         .p1_up ( cont1_key[0] ),
+         .p1_down ( cont1_key[1] ),
+
+         .p2_up ( cont1_key[6] ),
+         .p2_down ( cont1_key[5] ),
+
          .video_de ( video_de ),
          .video_vs ( video_vs ),
          .video_hs ( video_hs ),

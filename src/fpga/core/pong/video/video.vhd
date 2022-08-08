@@ -6,11 +6,17 @@ entity video is
   port (
     clk_7_159 : in std_logic;
 
+    pad_1 : in std_logic;
+    pad_2 : in std_logic;
+
     h_sync : out std_logic;
     h_blank : out std_logic;
 
     v_sync : out std_logic;
     v_blank : out std_logic;
+
+    h_count : out unsigned (8 downto 0);
+    v_count : out unsigned (8 downto 0);
 
     mono_video_out : out unsigned (7 downto 0)
   );
@@ -18,19 +24,16 @@ end entity;
 
 architecture rtl of video is
   signal h_reset : std_logic;
-  signal h_count : unsigned (8 downto 0);
+  signal h_count_int : unsigned (8 downto 0);
   signal h_blank_int : std_logic;
   -- signal h_sync : std_logic;
 
   signal v_reset : std_logic;
-  signal v_count : unsigned (8 downto 0);
+  signal v_count_int : unsigned (8 downto 0);
   signal v_blank_int : std_logic;
   -- signal v_sync : std_logic;
 
   signal net : std_logic;
-  -- TODO: Add pads
-  signal pad1 : std_logic := '0';
-  signal pad2 : std_logic := '0';
 
   -- Generated video
   signal combined_sync : std_logic;
@@ -38,15 +41,15 @@ architecture rtl of video is
 
   signal video : unsigned (7 downto 0);
 begin
-  HCOUNTER : entity work.hcounter port map (clk_7_159 => clk_7_159, h_reset => h_reset, h_count => h_count);
-  VCOUNTER : entity work.vcounter port map (h_reset_clk => h_reset, v_reset => v_reset, v_count => v_count);
+  HCOUNTER : entity work.hcounter port map (clk_7_159 => clk_7_159, h_reset => h_reset, h_count => h_count_int);
+  VCOUNTER : entity work.vcounter port map (h_reset_clk => h_reset, v_reset => v_reset, v_count => v_count_int);
 
   HSYNC : entity work.hsync port map (
     clk_7_159 => clk_7_159,
 
-    h16 => h_count(4),
-    h32 => h_count(5),
-    h64 => h_count(6),
+    h16 => h_count_int(4),
+    h32 => h_count_int(5),
+    h64 => h_count_int(6),
 
     h_reset => h_reset,
     h_blank => h_blank_int,
@@ -56,9 +59,9 @@ begin
   VSYNC : entity work.vsync port map (
     clk_7_159 => clk_7_159,
 
-    v4 => v_count(2),
-    v8 => v_count(3),
-    v16 => v_count(4),
+    v4 => v_count_int(2),
+    v8 => v_count_int(3),
+    v16 => v_count_int(4),
 
     v_reset => v_reset,
     v_blank => v_blank_int,
@@ -70,8 +73,8 @@ begin
 
     v_blank => v_blank_int,
 
-    v4 => v_count(2),
-    h256 => h_count(8),
+    v4 => v_count_int(2),
+    h256 => h_count_int(8),
 
     net => net
     );
@@ -79,12 +82,14 @@ begin
   -- Unused in output
   -- combined_sync <= not ((not hsync) xor (not vsync));
 
-  combined_pads_net <= not ((not pad1) and (not pad2) and (not net));
+  combined_pads_net <= pad_1 or pad_2 or net;
 
   mono_video_out <= video;
 
   h_blank <= h_blank_int;
+  h_count <= h_count_int;
   v_blank <= v_blank_int;
+  v_count <= v_count_int;
 
   process (h_blank_int, h_blank_int, combined_pads_net)
   begin

@@ -9,8 +9,8 @@ DATA_RADIX = HEX;
 CONTENT
 BEGIN
 
-   0E0 : 20220806;
-   0E1 : 00163206;
-   0E2 : a4c414cc;
+   0E0 : 20220808;
+   0E1 : 00115201;
+   0E2 : a9444e5e;
 
 END;
