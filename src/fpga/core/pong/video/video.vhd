@@ -26,12 +26,10 @@ architecture rtl of video is
   signal h_reset : std_logic;
   signal h_count_int : unsigned (8 downto 0);
   signal h_blank_int : std_logic;
-  -- signal h_sync : std_logic;
 
   signal v_reset : std_logic;
   signal v_count_int : unsigned (8 downto 0);
   signal v_blank_int : std_logic;
-  -- signal v_sync : std_logic;
 
   signal net : std_logic;
 
@@ -91,14 +89,14 @@ begin
   v_blank <= v_blank_int;
   v_count <= v_count_int;
 
-  process (h_blank_int, h_blank_int, combined_pads_net)
+  process (h_blank_int, v_blank_int, combined_pads_net)
   begin
-    if h_blank_int = '1' or h_blank_int = '1' then
+    if h_blank_int = '1' or v_blank_int = '1' then
       video <= x"00";
     elsif combined_pads_net = '1' then
       video <= x"FF";
     else
-      video <= x"00";
+      video <= x"55";
     end if;
   end process;
 end architecture;

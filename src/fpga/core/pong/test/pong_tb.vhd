@@ -12,13 +12,13 @@ architecture tb of pong_tb is
   constant period : time := 2 ns;
   constant half_period : time := period / 2;
 begin
-  UUT : entity work.pong port map (clk_7_159 => clk);
+  UUT : entity work.pong port map (clk_7_159 => clk, p1_up => '0', p1_down => '0', p2_up => '0', p2_down => '0');
 
   clk <= not clk after half_period;
 
   process
   begin
-    for i in 0 to 454 * 261 * 2 loop
+    for i in 0 to 454 * 261 * 10 loop
       wait for period;
     end loop;
 
