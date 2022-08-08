@@ -42,7 +42,7 @@
 # ========================
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "21:31:36  JANUARY 22, 2020"
-set_global_assignment -name LAST_QUARTUS_VERSION "18.1.1 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "21.1.1 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name PRE_FLOW_SCRIPT_FILE "quartus_sh:apf/build_id_gen.tcl"
 set_global_assignment -name SMART_RECOMPILE ON
@@ -737,6 +737,17 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 
 # end ENTITY(mf_pllbase_0002)
 # ---------------------------
+set_global_assignment -name VHDL_FILE core/pong/ic/sr_latch.vhd
+set_global_assignment -name VHDL_FILE core/pong/ic/74107_neg_flip_flop.vhd
+set_global_assignment -name VHDL_FILE core/pong/ic/7493_4bit_counter.vhd
+set_global_assignment -name VHDL_FILE core/pong/ic/7474_flip_flop.vhd
+set_global_assignment -name VHDL_FILE core/pong/video/vsync.vhd
+set_global_assignment -name VHDL_FILE core/pong/video/video.vhd
+set_global_assignment -name VHDL_FILE core/pong/video/vcounter.vhd
+set_global_assignment -name VHDL_FILE core/pong/video/hsync.vhd
+set_global_assignment -name VHDL_FILE core/pong/video/hcounter.vhd
+set_global_assignment -name VHDL_FILE core/pong/pong.vhd
+set_global_assignment -name VHDL_FILE core/pong/net.vhd
 set_global_assignment -name QIP_FILE apf/apf.qip
 set_global_assignment -name VERILOG_FILE core/core_top.v
 set_global_assignment -name VERILOG_FILE core/core_bridge_cmd.v
@@ -744,5 +755,7 @@ set_global_assignment -name SDC_FILE core/core_constraints.sdc
 set_global_assignment -name SIGNALTAP_FILE core/stp1.stp
 set_global_assignment -name QIP_FILE core/mf_pllbase.qip
 set_global_assignment -name SIP_FILE core/mf_pllbase.sip
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
+set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
 set_global_assignment -name SLD_FILE db/stp1_auto_stripped.stp
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

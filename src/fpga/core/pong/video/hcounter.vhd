@@ -5,9 +5,10 @@ use ieee.std_logic_misc.all;
 
 entity hcounter is
   port (
-    clk : in std_logic;
+    clk_7_159 : in std_logic;
 
-    h_reset : out std_logic := '0'
+    h_reset : out std_logic := '0';
+    h_count : out unsigned (8 downto 0)
   );
 end entity;
 
@@ -44,16 +45,25 @@ begin
 
   -- h_reset <= not not_h_internal_reset;
 
-  process (clk)
-  begin
-    if rising_edge(clk) then
-      h_reset <= '1' when count = 9d"454" else '0';
+  h_count <= count;
 
-      if count = 9d"454" then
-        count <= 9b"0";
-      end if;
-    elsif falling_edge(clk) then
+  process (clk_7_159, h_reset)
+  begin
+    if h_reset then
+      count <= 9b"0";
+    elsif falling_edge(clk_7_159) then
       count <= count + 1;
+    end if;
+  end process;
+
+  process (clk_7_159)
+  begin
+    if rising_edge(clk_7_159) then
+      if count = 454 then
+        h_reset <= '1';
+      else
+        h_reset <= '0';
+      end if;
     end if;
   end process;
 end architecture;

@@ -1,11 +1,11 @@
 //IP Functional Simulation Model
-//VERSION_BEGIN 18.1 cbx_mgl 2019:04:11:16:07:46:SJ cbx_simgen 2019:04:11:16:04:12:SJ  VERSION_END
+//VERSION_BEGIN 21.1 cbx_mgl 2022:06:23:22:04:21:SJ cbx_simgen 2022:06:23:22:03:45:SJ  VERSION_END
 // synthesis VERILOG_INPUT_VERSION VERILOG_2001
 // altera message_off 10463
 
 
 
-// Copyright (C) 2019  Intel Corporation. All rights reserved.
+// Copyright (C) 2022  Intel Corporation. All rights reserved.
 // Your use of Intel Corporation's design tools, logic functions 
 // and other software and tools, and any partner logic 
 // functions, and any output files from any of the foregoing 
@@ -235,8 +235,8 @@ module  mf_pllbase
 		mf_pllbase_altera_pll_altera_pll_i_2475.n_cnt_odd_div_duty_en = "false",
 		mf_pllbase_altera_pll_altera_pll_i_2475.number_of_clocks = 5,
 		mf_pllbase_altera_pll_altera_pll_i_2475.operation_mode = "normal",
-		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency0 = "12.287999 MHz",
-		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency1 = "12.287999 MHz",
+		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency0 = "7.158999 MHz",
+		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency1 = "7.158999 MHz",
 		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency10 = "0 MHz",
 		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency11 = "0 MHz",
 		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency12 = "0 MHz",
@@ -245,16 +245,16 @@ module  mf_pllbase
 		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency15 = "0 MHz",
 		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency16 = "0 MHz",
 		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency17 = "0 MHz",
-		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency2 = "133.119993 MHz",
-		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency3 = "133.119992 MHz",
-		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency4 = "133.119990 MHz",
+		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency2 = "133.157390 MHz",
+		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency3 = "133.157387 MHz",
+		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency4 = "133.157384 MHz",
 		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency5 = "0 MHz",
 		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency6 = "0 MHz",
 		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency7 = "0 MHz",
 		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency8 = "0 MHz",
 		mf_pllbase_altera_pll_altera_pll_i_2475.output_clock_frequency9 = "0 MHz",
 		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift0 = "0 ps",
-		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift1 = "20345 ps",
+		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift1 = "34921 ps",
 		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift10 = "0 ps",
 		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift11 = "0 ps",
 		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift12 = "0 ps",
@@ -264,8 +264,8 @@ module  mf_pllbase
 		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift16 = "0 ps",
 		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift17 = "0 ps",
 		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift2 = "0 ps",
-		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift3 = "6573 ps",
-		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift4 = "5634 ps",
+		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift3 = "6571 ps",
+		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift4 = "5632 ps",
 		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift5 = "0 ps",
 		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift6 = "0 ps",
 		mf_pllbase_altera_pll_altera_pll_i_2475.phase_shift7 = "0 ps",
