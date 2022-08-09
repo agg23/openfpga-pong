@@ -42,7 +42,7 @@ begin
 
   -- Position the paddle on the left/right of the screen, with a width of 4 pixels
   -- TODO: Pass attract to reset
-  H3A : entity work.ic7474 port map (data => h128, clk => h4, reset => '1', output => not_h3a_out);
+  H3A : entity work.ic7474 port map (data => h128, clk => h4, reset => '1', clr => '1', output => not_h3a_out);
 
   a7b_out <= not (b8_count(0) and b8_count(1) and b8_count(2) and b8_count(3));
 

@@ -18,9 +18,9 @@ architecture rtl of ic7474 is
 begin
   process (clk, reset, clr)
   begin
-    if falling_edge(clr) then
+    if clr = '0' then
       output <= '0';
-    elsif falling_edge(reset) then
+    elsif reset = '0' then
       output <= '1';
     elsif rising_edge(clk) then
       output <= data;

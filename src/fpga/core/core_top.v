@@ -408,6 +408,8 @@ module core_top (
          .p2_up ( cont1_key[6] ),
          .p2_down ( cont1_key[5] ),
 
+         .start_button ( cont1_key[15] ),
+
          .video_de ( video_de ),
          .video_vs ( video_vs ),
          .video_hs ( video_hs ),
