@@ -13,6 +13,10 @@ entity paddle is
     h128 : in std_logic;
     h4 : in std_logic;
 
+    paddle_b : out std_logic;
+    paddle_c : out std_logic;
+    paddle_d : out std_logic;
+
     pad : out std_logic
   );
 end entity;
@@ -45,6 +49,10 @@ begin
   H3A : entity work.ic7474 port map (data => h128, clk => h4, reset => '1', clr => '1', output => not_h3a_out);
 
   a7b_out <= not (b8_count(0) and b8_count(1) and b8_count(2) and b8_count(3));
+
+  paddle_b <= b8_count(1);
+  paddle_c <= b8_count(2);
+  paddle_d <= b8_count(3);
 
   -- 555 timer uses potentiometer (radial controller) to send trigger pulses at a given rate.
   -- This is combined with a 4 bit counter to count to 15, which is the the height of the paddle.

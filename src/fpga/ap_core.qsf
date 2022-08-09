@@ -739,6 +739,8 @@ set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 # ---------------------------
 set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
 set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
+set_global_assignment -name VHDL_FILE core/pong/ic/7483_full_adder_without_carry.vhd
+set_global_assignment -name VHDL_FILE core/pong/ball/vertical.vhd
 set_global_assignment -name VHDL_FILE core/pong/ic/9316_sync_4bit_counter.vhd
 set_global_assignment -name VHDL_FILE core/pong/ic/9316_internal.vhd
 set_global_assignment -name VHDL_FILE core/pong/ball/move.vhd

@@ -38,8 +38,7 @@ architecture rtl of pong is
   signal hit_2 : std_logic;
 
   signal h_ball_video : std_logic;
-  -- TODO: Implement
-  signal v_ball_video : std_logic := '1';
+  signal v_ball_video : std_logic;
 
   -- TODO: Implement
   signal attract : std_logic := '0';
@@ -54,6 +53,17 @@ architecture rtl of pong is
   signal paddle_pos_2 : unsigned (7 downto 0) := 8d"128";
   signal pad_1 : std_logic;
   signal pad_2 : std_logic;
+
+  signal paddle_b_1 : std_logic;
+  signal paddle_b_2 : std_logic;
+  signal paddle_c_1 : std_logic;
+  signal paddle_c_2 : std_logic;
+  signal paddle_d_1 : std_logic;
+  signal paddle_d_2 : std_logic;
+
+  signal v_ball16 : std_logic;
+  signal v_ball32 : std_logic;
+  signal v_ball240 : std_logic;
 
   signal mono_video_out : unsigned (7 downto 0);
 begin
@@ -92,6 +102,10 @@ begin
     h128 => h_count(7),
     h4 => h_count(2),
 
+    paddle_b => paddle_b_1,
+    paddle_c => paddle_c_1,
+    paddle_d => paddle_d_1,
+
     pad => pad_1
     );
 
@@ -105,6 +119,10 @@ begin
     h256 => not h_count(8),
     h128 => h_count(7),
     h4 => h_count(2),
+
+    paddle_b => paddle_b_2,
+    paddle_c => paddle_c_2,
+    paddle_d => paddle_d_2,
 
     pad => pad_2
     );
@@ -129,6 +147,28 @@ begin
     score_sound => score_sound,
 
     h_ball_video => h_ball_video
+    );
+
+  BALL_VERTICAL : entity work.ball_vertical port map (
+    v_blank => v_blank,
+    h_sync => h_sync,
+    h256 => h_count(7),
+
+    hit => hit,
+    attract => attract,
+
+    paddle_b_1 => paddle_b_1,
+    paddle_b_2 => paddle_b_2,
+    paddle_c_1 => paddle_c_1,
+    paddle_c_2 => paddle_c_2,
+    paddle_d_1 => paddle_d_1,
+    paddle_d_2 => paddle_d_2,
+
+    v_ball16 => v_ball16,
+    v_ball32 => v_ball32,
+    v_ball240 => v_ball240,
+
+    v_ball_video => v_ball_video
     );
 
   -- TODO: Remove
