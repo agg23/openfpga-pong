@@ -18,9 +18,9 @@ entity ball_vertical is
     paddle_d_1 : in std_logic;
     paddle_d_2 : in std_logic;
 
-    v_ball16 : out std_logic;
-    v_ball32 : out std_logic;
     v_ball240 : out std_logic;
+    v_ball32 : out std_logic;
+    v_ball16 : out std_logic;
 
     v_ball_video : out std_logic
   );

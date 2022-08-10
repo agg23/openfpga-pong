@@ -399,6 +399,9 @@ module core_top (
   // this pixel clock is fairly high for the relatively low resolution, but that's fine.
   // PLL output has a minimum output frequency anyway.
 
+  // TODO: Consume
+  wire sound;
+
   pong pong (
          .clk_7_159 ( clk_core_7159 ),
 
@@ -414,7 +417,9 @@ module core_top (
          .video_vs ( video_vs ),
          .video_hs ( video_hs ),
 
-         .video_rgb ( video_rgb )
+         .video_rgb ( video_rgb ),
+
+         .sound ( sound )
        );
 
   assign video_rgb_clock = clk_core_7159;

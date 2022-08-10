@@ -17,7 +17,9 @@ entity pong is
     -- TODO: Remove
     video_vs : out std_logic;
     video_hs : out std_logic;
-    video_rgb : out unsigned (23 downto 0)
+    video_rgb : out unsigned (23 downto 0);
+
+    sound : out std_logic
   );
 end entity;
 
@@ -51,8 +53,8 @@ architecture rtl of pong is
 
   signal score_stop_at_15 : std_logic := '0';
 
-  signal hit_sound : std_logic := '0';
-  signal score_sound : std_logic := '0';
+  signal hit_sound : std_logic;
+  signal score_sound : std_logic;
 
   signal ball_left : std_logic;
   signal ball_right : std_logic;
@@ -207,11 +209,34 @@ begin
     paddle_d_1 => paddle_d_1,
     paddle_d_2 => paddle_d_2,
 
-    v_ball16 => v_ball16,
-    v_ball32 => v_ball32,
     v_ball240 => v_ball240,
+    v_ball32 => v_ball32,
+    v_ball16 => v_ball16,
 
     v_ball_video => v_ball_video
+    );
+
+  SOUND_GEN : entity work.sound port map (
+    clk_7_159 => clk_7_159,
+
+    attract => attract,
+    serve => serve,
+
+    hit => hit,
+    miss => miss,
+
+    v_blank => v_blank,
+    v_ball_video => v_ball_video,
+    v_ball240 => v_ball240,
+    v_ball32 => v_ball32,
+    v_ball16 => v_ball16,
+
+    v32 => v_count(5),
+
+    hit_sound => hit_sound,
+    score_sound => score_sound,
+
+    sound_out => sound
     );
 
   -- TODO: Remove
