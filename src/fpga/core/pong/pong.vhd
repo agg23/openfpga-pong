@@ -11,7 +11,7 @@ entity pong is
     p2_up : in std_logic;
     p2_down : in std_logic;
 
-    start_button : std_logic;
+    coin_insert : std_logic;
 
     video_de : out std_logic;
     -- TODO: Remove
@@ -45,9 +45,9 @@ architecture rtl of pong is
   signal score_video : std_logic;
 
   -- TODO: Implement
-  signal attract : std_logic := '0';
+  signal attract : std_logic;
   signal serve : std_logic;
-  signal reset_speed : std_logic := '1';
+  signal reset_speed : std_logic;
   signal miss : std_logic;
   signal stop_game : std_logic;
 
@@ -145,7 +145,7 @@ begin
     h_blank => h_blank,
 
     attract => attract,
-    coin_insert => start_button,
+    coin_insert => coin_insert,
     ball_left => ball_left,
     ball_right => ball_right,
 
@@ -239,9 +239,20 @@ begin
     sound_out => sound
     );
 
-  -- TODO: Remove
-  -- serve <= start_button;
-  serve <= '0';
+  CONTROL : entity work.game_control port map (
+    clk_7_159 => clk_7_159,
+
+    pad_1 => pad_1,
+
+    miss => miss,
+    coin_insert => coin_insert,
+    stop_game => stop_game,
+
+    attract => attract,
+    serve => serve,
+
+    reset_speed => reset_speed
+    );
 
   video_de <= (not h_blank) and (not v_blank);
   video_vs <= v_sync;
