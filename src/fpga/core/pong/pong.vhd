@@ -40,13 +40,22 @@ architecture rtl of pong is
   signal h_ball_video : std_logic;
   signal v_ball_video : std_logic;
 
+  signal score_video : std_logic;
+
   -- TODO: Implement
   signal attract : std_logic := '0';
   signal serve : std_logic;
   signal reset_speed : std_logic := '1';
+  signal miss : std_logic;
+  signal stop_game : std_logic;
+
+  signal score_stop_at_15 : std_logic := '0';
 
   signal hit_sound : std_logic := '0';
   signal score_sound : std_logic := '0';
+
+  signal ball_left : std_logic;
+  signal ball_right : std_logic;
 
   signal input_count : unsigned (12 downto 0) := 13d"0";
   signal paddle_pos_1 : unsigned (7 downto 0) := 8d"128";
@@ -75,6 +84,8 @@ begin
 
     h_ball_video => h_ball_video,
     v_ball_video => v_ball_video,
+
+    score_video => score_video,
 
     h_sync => h_sync,
     h_blank => h_blank,
@@ -127,6 +138,38 @@ begin
     pad => pad_2
     );
 
+  SCORE : entity work.score port map (
+    h_ball_video => h_ball_video,
+    h_blank => h_blank,
+
+    attract => attract,
+    coin_insert => start_button,
+    ball_left => ball_left,
+    ball_right => ball_right,
+
+    score_stop_at_15 => score_stop_at_15,
+
+    h256 => h_count(8),
+    h128 => h_count(7),
+    h64 => h_count(6),
+    h32 => h_count(5),
+    h16 => h_count(4),
+    h8 => h_count(3),
+    h4 => h_count(2),
+
+    v128 => v_count(7),
+    v64 => v_count(6),
+    v32 => v_count(5),
+    v16 => v_count(4),
+    v8 => v_count(3),
+    v4 => v_count(2),
+
+    miss => miss,
+    stop_game => stop_game,
+
+    score_video => score_video
+    );
+
   BALL_HORIZONTAL : entity work.ball_horizontal port map (
     clk_7_159 => clk_7_159,
 
@@ -172,7 +215,8 @@ begin
     );
 
   -- TODO: Remove
-  serve <= start_button;
+  -- serve <= start_button;
+  serve <= '0';
 
   video_de <= (not h_blank) and (not v_blank);
   video_vs <= v_sync;

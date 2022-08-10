@@ -21,6 +21,9 @@ entity ball_horizontal is
     hit_sound : in std_logic;
     score_sound : in std_logic;
 
+    ball_left : out std_logic;
+    ball_right : out std_logic;
+
     -- The output signal for when in the horizontal scan to display the ball
     h_ball_video : out std_logic
   );
@@ -51,7 +54,10 @@ begin
     attract => attract,
 
     out_aa => aa,
-    out_ba => ba
+    out_ba => ba,
+
+    ball_left => ball_left,
+    ball_right => ball_right
     );
 
   BALL_POSITION : entity work.ball_horizontal_position port map (

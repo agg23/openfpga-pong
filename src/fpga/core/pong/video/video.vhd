@@ -12,6 +12,8 @@ entity video is
     h_ball_video : in std_logic;
     v_ball_video : in std_logic;
 
+    score_video : in std_logic;
+
     h_sync : out std_logic;
     h_blank : out std_logic;
     h_reset : out std_logic;
@@ -47,7 +49,7 @@ architecture rtl of video is
 
   -- Generated video
   signal combined_sync : std_logic;
-  signal combined_pads_net : std_logic;
+  signal combined_pads_net_ball : std_logic;
 
   signal video : unsigned (7 downto 0);
 begin
@@ -98,7 +100,7 @@ begin
 
   -- Unused in output
   -- combined_sync <= not ((not hsync) xor (not vsync));
-  combined_pads_net <= pad_1 or pad_2 or net or combined_ball_g1b_out;
+  combined_pads_net_ball <= pad_1 or pad_2 or net or combined_ball_g1b_out;
 
   mono_video_out <= video;
 
@@ -109,11 +111,15 @@ begin
   v_count <= v_count_int;
   v_reset <= v_reset_int;
 
-  process (h_blank_int, v_blank_int, combined_pads_net)
+  process (h_blank_int, v_blank_int, combined_pads_net_ball, score_video)
   begin
     if h_blank_int = '1' or v_blank_int = '1' then
       video <= x"00";
-    elsif combined_pads_net = '1' then
+    elsif score_video = '1' then
+      -- TODO: Find right color
+      video <= x"BB";
+    elsif combined_pads_net_ball = '1' then
+      -- TODO: Find right color
       video <= x"FF";
     else
       video <= x"55";
