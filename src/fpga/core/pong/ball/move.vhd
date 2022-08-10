@@ -52,6 +52,7 @@ begin
   h1b_out <= not (v_reset and h1a_out);
   h1c_out <= not (v_reset and h1d_out);
 
+  -- H4a
   move_int <= not (h2a_out and h2b_out);
   move <= move_int;
 end architecture;

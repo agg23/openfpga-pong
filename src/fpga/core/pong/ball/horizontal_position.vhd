@@ -19,7 +19,6 @@ entity ball_horizontal_position is
 end entity;
 
 architecture rtl of ball_horizontal_position is
-  signal g7_in : unsigned (3 downto 0);
   signal g7_out : unsigned (3 downto 0);
   signal g7_ripple_carry : std_logic;
 
@@ -36,12 +35,11 @@ begin
 
     clr => reset_e1b_out,
 
-    -- G5c
     load => load_g5c_out,
     en_p => '1',
     en_t => not h_blank,
 
-    input => g7_in,
+    input => b"10" & ba & aa,
 
     output => g7_out,
     ripple_carry_output => g7_ripple_carry
@@ -71,8 +69,6 @@ begin
 
     output => g6b_out
     );
-
-  g7_in <= b"10" & ba & aa;
 
   reset_e1b_out <= not (not attract and serve);
 

@@ -115,7 +115,7 @@ begin
     h_sync => h_sync,
 
     v256 => v_count(8),
-    -- Only difference from pad1
+    -- Only difference from pad1, intentionally inverted
     h256 => not h_count(8),
     h128 => h_count(7),
     h4 => h_count(2),
@@ -133,7 +133,7 @@ begin
     v_reset => v_reset,
     h_blank => h_blank,
 
-    h256 => h_count(7),
+    h256 => h_count(8),
 
     hit_1 => hit_1,
     hit_2 => hit_2,
@@ -152,7 +152,7 @@ begin
   BALL_VERTICAL : entity work.ball_vertical port map (
     v_blank => v_blank,
     h_sync => h_sync,
-    h256 => h_count(7),
+    h256 => h_count(8),
 
     hit => hit,
     attract => attract,
