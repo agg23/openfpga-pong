@@ -20,7 +20,7 @@ architecture rtl of hsync is
   signal not_h_blank : std_logic;
 begin
   -- Count to 64 + 16 = 80 (0x50) to fire h_blank
-  H5 : entity work.sr_latch port map (clk => clk_7_159, s => not (h16 and h64), r => not h_reset, q => not_h_blank);
+  H5 : entity work.sr_latch port map (clk => not clk_7_159, s => not (h16 and h64), r => not h_reset, q => not_h_blank);
 
   h_blank <= not not_h_blank;
   h_sync <= h_blank and h32;

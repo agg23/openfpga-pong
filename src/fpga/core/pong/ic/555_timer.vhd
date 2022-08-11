@@ -9,7 +9,7 @@ entity ic555 is
 
     not_trigger : in std_logic;
 
-    output : out std_logic
+    output : out std_logic := '0'
   );
 end entity;
 

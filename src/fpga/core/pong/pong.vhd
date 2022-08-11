@@ -193,6 +193,9 @@ begin
     hit_sound => hit_sound,
     score_sound => score_sound,
 
+    ball_left => ball_left,
+    ball_right => ball_right,
+
     h_ball_video => h_ball_video
     );
 
