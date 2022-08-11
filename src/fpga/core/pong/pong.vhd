@@ -14,7 +14,6 @@ entity pong is
     coin_insert : std_logic;
 
     video_de : out std_logic;
-    -- TODO: Remove
     video_vs : out std_logic;
     video_hs : out std_logic;
     video_rgb : out unsigned (23 downto 0);
@@ -44,7 +43,6 @@ architecture rtl of pong is
 
   signal score_video : std_logic;
 
-  -- TODO: Implement
   signal attract : std_logic;
   signal serve : std_logic;
   signal reset_speed : std_logic;
@@ -115,6 +113,8 @@ begin
     h128 => h_count(7),
     h4 => h_count(2),
 
+    attract => attract,
+
     paddle_b => paddle_b_1,
     paddle_c => paddle_c_1,
     paddle_d => paddle_d_1,
@@ -132,6 +132,8 @@ begin
     h256 => not h_count(8),
     h128 => h_count(7),
     h4 => h_count(2),
+
+    attract => attract,
 
     paddle_b => paddle_b_2,
     paddle_c => paddle_c_2,

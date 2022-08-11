@@ -25,7 +25,7 @@ architecture rtl of game_control is
   signal e5a_out : std_logic;
   signal b5b_out : std_logic;
 
-  signal running : std_logic;
+  signal running : std_logic := '0';
   signal coin_insert_prev : std_logic;
   signal stop_game_prev : std_logic;
 begin

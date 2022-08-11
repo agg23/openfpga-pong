@@ -33,6 +33,7 @@ begin
         when b"01" => output <= in_1;
         when b"10" => output <= in_2;
         when b"11" => output <= in_3;
+        when others => null;
       end case;
     end if;
   end process;
