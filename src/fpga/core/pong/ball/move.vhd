@@ -48,6 +48,7 @@ begin
   h1a_out <= f1_count(2) or f1_count(3);
   h1d_out <= not (e1c_out and h1a_out);
 
+  -- h256 and not v_reset
   g1c_out <= not (not h256 or v_reset);
   h1b_out <= not (v_reset and h1a_out);
   h1c_out <= not (v_reset and h1d_out);

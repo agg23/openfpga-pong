@@ -54,6 +54,7 @@ begin
 
   attract <= stop_game or not running;
   serve <= not b5b_out;
+  reset_speed <= e6b_out;
 
   -- Logic taken from https://github.com/MiSTer-devel/Arcade-Pong_MiSTer/blob/master/rtl/game_control.v
   process (clk_7_159)
