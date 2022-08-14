@@ -25,7 +25,6 @@ end entity;
 architecture rtl of pong is
   signal h_sync : std_logic;
   signal h_blank : std_logic;
-  signal h_reset : std_logic;
 
   signal v_sync : std_logic;
   signal v_blank : std_logic;
@@ -89,7 +88,6 @@ begin
 
     h_sync => h_sync,
     h_blank => h_blank,
-    h_reset => h_reset,
     h_count => h_count,
     v_sync => v_sync,
     v_blank => v_blank,

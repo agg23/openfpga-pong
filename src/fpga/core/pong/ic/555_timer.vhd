@@ -14,7 +14,7 @@ entity ic555 is
 end entity;
 
 architecture rtl of ic555 is
-  signal counter : unsigned (31 downto 0) := x"00000000";
+  signal counter : unsigned (31 downto 0) := 32b"0";
 
   constant timeout : unsigned (31 downto 0) := to_unsigned(7_159_000 / 1000 * duration_ms, 32);
 begin

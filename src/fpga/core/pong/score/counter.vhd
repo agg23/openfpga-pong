@@ -85,7 +85,7 @@ begin
   s1_out <= c8a_out & c7_out;
   s2_out <= c8b_out & d7_out;
 
-  process (s1_out, s2_out)
+  process (s1_out, s2_out, score_stop_at_15)
     variable s1_met_score : std_logic;
     variable s2_met_score : std_logic;
   begin

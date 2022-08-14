@@ -16,7 +16,6 @@ entity video is
 
     h_sync : out std_logic;
     h_blank : out std_logic;
-    h_reset : out std_logic;
 
     v_sync : out std_logic;
     v_blank : out std_logic;
@@ -36,7 +35,7 @@ end entity;
 architecture rtl of video is
   signal h_count_int : unsigned (8 downto 0);
   signal h_blank_int : std_logic;
-  signal h_reset_int : std_logic;
+  signal h_reset : std_logic;
 
   signal v_count_int : unsigned (8 downto 0);
   signal v_blank_int : std_logic;
@@ -48,13 +47,13 @@ architecture rtl of video is
   signal combined_ball_g1b_out : std_logic;
 
   -- Generated video
-  signal combined_sync : std_logic;
+  -- signal combined_sync : std_logic;
   signal combined_pads_net_ball : std_logic;
 
   signal video : unsigned (7 downto 0);
 begin
-  HCOUNTER : entity work.hcounter port map (clk_7_159 => clk_7_159, h_reset => h_reset_int, h_count => h_count_int);
-  VCOUNTER : entity work.vcounter port map (h_reset_clk => h_reset_int, v_reset => v_reset_int, v_count => v_count_int);
+  HCOUNTER : entity work.hcounter port map (clk_7_159 => clk_7_159, h_reset => h_reset, h_count => h_count_int);
+  VCOUNTER : entity work.vcounter port map (h_reset_clk => h_reset, v_reset => v_reset_int, v_count => v_count_int);
 
   HSYNC : entity work.hsync port map (
     clk_7_159 => clk_7_159,
@@ -63,7 +62,7 @@ begin
     h32 => h_count_int(5),
     h64 => h_count_int(6),
 
-    h_reset => h_reset_int,
+    h_reset => h_reset,
     h_blank => h_blank_int,
     h_sync => h_sync
     );
@@ -106,23 +105,19 @@ begin
 
   h_blank <= h_blank_int;
   h_count <= h_count_int;
-  h_reset <= h_reset_int;
   v_blank <= v_blank_int;
   v_count <= v_count_int;
   v_reset <= v_reset_int;
 
   process (h_blank_int, v_blank_int, combined_pads_net_ball, score_video)
   begin
-    if h_blank_int = '1' or v_blank_int = '1' then
-      video <= x"00";
-    elsif score_video = '1' then
+    video <= x"00";
+    if score_video = '1' then
       -- TODO: Find right color
       video <= x"BB";
     elsif combined_pads_net_ball = '1' then
       -- TODO: Find right color
       video <= x"FF";
-    else
-      video <= x"55";
     end if;
   end process;
 end architecture;

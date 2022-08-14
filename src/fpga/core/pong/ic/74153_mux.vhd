@@ -20,7 +20,7 @@ end entity;
 
 architecture rtl of ic74153 is
 begin
-  process (select_a, select_b, not_enable)
+  process (select_a, select_b, not_enable, in_0, in_1, in_2, in_3)
     variable selector : unsigned (1 downto 0);
   begin
     if not_enable = '1' then

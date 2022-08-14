@@ -25,7 +25,7 @@ end entity;
 
 architecture rtl of paddle is
   signal trigger_555 : std_logic;
-  signal count_555 : unsigned (8 downto 0);
+  signal count_555 : unsigned (8 downto 0) := 9b"0";
 
   signal b8_count : unsigned (3 downto 0);
 
