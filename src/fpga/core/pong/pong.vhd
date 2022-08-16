@@ -56,7 +56,7 @@ architecture rtl of pong is
   signal ball_left : std_logic;
   signal ball_right : std_logic;
 
-  signal input_count : unsigned (12 downto 0) := 13d"0";
+  signal input_count : unsigned (13 downto 0) := 14d"0";
   signal paddle_pos_1 : unsigned (7 downto 0) := 8d"128";
   signal paddle_pos_2 : unsigned (7 downto 0) := 8d"128";
   signal pad_1 : std_logic;
@@ -267,7 +267,7 @@ begin
   begin
     if rising_edge(clk_7_159) then
       if input_count = 0 then
-        input_count <= '1' & 12x"AAA";
+        input_count <= b"11" & 12x"CCC";
 
         if p1_up = '1' then
           if paddle_pos_1 > 1 then

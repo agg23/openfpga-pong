@@ -526,6 +526,8 @@ module core_top (
   assign audio_dac = audgen_dac;
   assign audio_lrck = audgen_lrck;
 
+  reg				audgen_nextsamp;
+
   // generate MCLK = 12.288mhz with fractional accumulator
   reg         [21:0]  audgen_accum;
   reg                 audgen_mclk;
@@ -552,12 +554,21 @@ module core_top (
   // shift out audio data as I2S
   // 32 total bits per channel, but only 16 active bits at the start and then 16 dummy bits
   //
-  reg     [4:0]   audgen_lrck_cnt;
-  reg             audgen_lrck;
-  reg             audgen_dac;
+  // synchronize audio samples coming from the ram readout
+  wire	[31:0]	audgen_sampdata_s;
+  synch_3 #(.WIDTH(32)) s5(sound ? 32'hF000F000 : 32'b0, audgen_sampdata_s, audgen_sclk);
+  //reg		[31:0]	audgen_sampdata = 32'hF0008000;
+  reg		[31:0]	audgen_sampshift;
+  reg		[4:0]	audgen_lrck_cnt;
+  reg				audgen_lrck;
+  reg				audgen_dac;
   always @(negedge audgen_sclk)
   begin
-    audgen_dac <= 1'b0;
+    audgen_nextsamp <= 0;
+
+    // output the next bit
+    audgen_dac <= audgen_sampshift[31];
+
     // 48khz * 64
     audgen_lrck_cnt <= audgen_lrck_cnt + 1'b1;
     if(audgen_lrck_cnt == 31)
@@ -565,9 +576,23 @@ module core_top (
       // switch channels
       audgen_lrck <= ~audgen_lrck;
 
+      if(audgen_lrck)
+      begin
+        // load new sample
+        audgen_nextsamp <= 1;
+        // RIFF wave data is stored as 16bit little endian signed, so byteswap 16-bit
+        audgen_sampshift <= {audgen_sampdata_s};
+      end
+    end
+    else
+    begin
+      // only shift for 16 clocks per channel
+      if(audgen_lrck_cnt < 16)
+      begin
+        audgen_sampshift <= {audgen_sampshift[30:0], 1'b0};
+      end
     end
   end
-
 
   ///////////////////////////////////////////////
 
