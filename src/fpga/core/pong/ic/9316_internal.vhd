@@ -9,6 +9,7 @@ entity ic9316_flipflop is
 
   port (
     clk : in std_logic;
+    clk_sync : in std_logic;
 
     data : in std_logic;
     q_prev : in unsigned (width - 2 downto 0);
@@ -39,13 +40,15 @@ architecture rtl of ic9316_flipflop is
   signal j : std_logic;
   signal k : std_logic;
 begin
-  FF : entity work.ic74107_single port map (
+  FF : entity work.ic74107 port map (
     clk => clk,
+    clk_sync => clk_sync,
 
     j => j,
     k => k,
 
     reset => clr,
+    set => '1',
 
     output => output
     );

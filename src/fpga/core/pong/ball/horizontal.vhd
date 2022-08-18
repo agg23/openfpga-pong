@@ -4,6 +4,7 @@ use ieee.std_logic_1164.all;
 entity ball_horizontal is
   port (
     clk_7_159 : in std_logic;
+    clk_sync : in std_logic;
 
     v_reset : in std_logic;
     h_blank : in std_logic;
@@ -36,6 +37,8 @@ architecture rtl of ball_horizontal is
   signal ba : std_logic;
 begin
   BALL_MOVE : entity work.ball_move port map (
+    clk_sync => clk_sync,
+
     v_reset => v_reset,
     h256 => h256,
     reset_speed => reset_speed,
@@ -45,6 +48,8 @@ begin
     );
 
   BALL_AB : entity work.ball_horizontal_direction port map (
+    clk_sync => clk_sync,
+
     move => move,
 
     hit_1 => hit_1,
@@ -62,6 +67,7 @@ begin
 
   BALL_POSITION : entity work.ball_horizontal_position port map (
     clk_7_159 => clk_7_159,
+    clk_sync => clk_sync,
 
     aa => aa,
     ba => ba,

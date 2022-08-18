@@ -4,6 +4,7 @@ use ieee.std_logic_1164.all;
 entity game_control is
   port (
     clk_7_159 : in std_logic;
+    clk_sync : in std_logic;
 
     pad_1 : in std_logic;
 
@@ -40,6 +41,7 @@ begin
   B5b : entity work.ic7474 port map (
     data => e5a_out,
 
+    clk_sync => clk_sync,
     clk => pad_1,
 
     reset => '1',

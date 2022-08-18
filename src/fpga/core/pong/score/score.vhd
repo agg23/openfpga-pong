@@ -4,6 +4,8 @@ use ieee.numeric_std.all;
 
 entity score is
   port (
+    clk_sync : in std_logic;
+
     h_ball_video : in std_logic;
     h_blank : in std_logic;
 
@@ -44,6 +46,8 @@ architecture rtl of score is
   signal segments : unsigned (6 downto 0);
 begin
   COUNTER : entity work.score_counter port map (
+    clk_sync => clk_sync,
+
     h_ball_video => h_ball_video,
     h_blank => h_blank,
 

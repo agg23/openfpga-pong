@@ -4,6 +4,8 @@ use ieee.numeric_std.all;
 
 entity score_counter is
   port (
+    clk_sync : in std_logic;
+
     h_ball_video : in std_logic;
     h_blank : in std_logic;
 
@@ -40,6 +42,8 @@ begin
 
   -- Count points on collision with the left side
   C7 : entity work.ic7490 port map (
+    clk_sync => clk_sync,
+
     clk_1bit => not e1a_out and not ball_left,
     clk_3bit => c7_out(0),
 
@@ -51,17 +55,22 @@ begin
     output => c7_out
     );
 
-  C8a : entity work.ic74107_single port map (
+  C8a : entity work.ic74107 port map (
     j => '1',
     k => '1',
 
     clk => c7_out(3),
+    clk_sync => clk_sync,
+
     reset => not coin_insert,
+    set => '1',
     output => c8a_out
     );
 
   -- Count points on collision with the right side
   D7 : entity work.ic7490 port map (
+    clk_sync => clk_sync,
+
     clk_1bit => not e1a_out and not ball_right,
     clk_3bit => d7_out(0),
 
@@ -73,12 +82,15 @@ begin
     output => d7_out
     );
 
-  C8b : entity work.ic74107_single port map (
+  C8b : entity work.ic74107 port map (
     j => '1',
     k => '1',
 
     clk => d7_out(3),
+    clk_sync => clk_sync,
+
     reset => not coin_insert,
+    set => '1',
     output => c8b_out
     );
 

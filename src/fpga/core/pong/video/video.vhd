@@ -5,6 +5,7 @@ use ieee.numeric_std.all;
 entity video is
   port (
     clk_7_159 : in std_logic;
+    clk_sync : in std_logic;
 
     pad_1 : in std_logic;
     pad_2 : in std_logic;
@@ -52,11 +53,11 @@ architecture rtl of video is
 
   signal video : unsigned (7 downto 0);
 begin
-  HCOUNTER : entity work.hcounter port map (clk_7_159 => clk_7_159, h_reset => h_reset, h_count => h_count_int);
-  VCOUNTER : entity work.vcounter port map (h_reset_clk => h_reset, v_reset => v_reset_int, v_count => v_count_int);
+  HCOUNTER : entity work.hcounter port map (clk_sync => clk_sync, clk_7_159 => clk_7_159, h_reset => h_reset, h_count => h_count_int);
+  VCOUNTER : entity work.vcounter port map (clk_sync => clk_sync, h_reset => h_reset, v_reset => v_reset_int, v_count => v_count_int);
 
   HSYNC : entity work.hsync port map (
-    clk_7_159 => clk_7_159,
+    clk_sync => clk_sync,
 
     h16 => h_count_int(4),
     h32 => h_count_int(5),
@@ -68,7 +69,7 @@ begin
     );
 
   VSYNC : entity work.vsync port map (
-    clk_7_159 => clk_7_159,
+    clk_sync => clk_sync,
 
     v4 => v_count_int(2),
     v8 => v_count_int(3),
@@ -81,6 +82,7 @@ begin
 
   NET_GEN : entity work.net port map (
     clk_7_159 => clk_7_159,
+    clk_sync => clk_sync,
 
     v_blank => v_blank_int,
 

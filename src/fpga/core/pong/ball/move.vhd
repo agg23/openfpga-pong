@@ -4,6 +4,8 @@ use ieee.numeric_std.all;
 
 entity ball_move is
   port (
+    clk_sync : in std_logic;
+
     v_reset : in std_logic;
     h256 : in std_logic;
 
@@ -32,6 +34,8 @@ architecture rtl of ball_move is
   signal move_int : std_logic;
 begin
   F1 : entity work.ic7493 port map (
+    clk_sync => clk_sync,
+
     in_1bit => not (hit_sound and e1c_out),
     in_3bit => f1_count(0),
 
@@ -40,8 +44,27 @@ begin
 
     count => f1_count);
 
-  H2b : entity work.ic74107_single port map (clk => g1c_out, j => '1', k => move_int, reset => h1c_out, output => h2b_out);
-  H2a : entity work.ic74107_single port map (clk => g1c_out, j => h2b_out, k => '0', reset => h1b_out, output => h2a_out);
+  H2b : entity work.ic74107 port map (
+    clk => g1c_out,
+    clk_sync => clk_sync,
+
+    j => '1',
+    k => move_int,
+    reset => h1c_out,
+    set => '1',
+    output => h2b_out
+    );
+
+  H2a : entity work.ic74107 port map (
+    clk => g1c_out,
+    clk_sync => clk_sync,
+
+    j => h2b_out,
+    k => '0',
+    reset => h1b_out,
+    set => '1',
+    output => h2a_out
+    );
 
   e1c_out <= not (f1_count(2) and f1_count(3));
   -- not (not (count(2) or count(3)))

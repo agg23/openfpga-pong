@@ -4,6 +4,8 @@ use ieee.numeric_std.all;
 
 entity ball_vertical is
   port (
+    clk_sync : in std_logic;
+
     v_blank : in std_logic;
     h_sync : in std_logic;
     h256 : in std_logic;
@@ -46,17 +48,20 @@ architecture rtl of ball_vertical is
 
   signal v_ball_video_int : std_logic;
 begin
-  A2a : entity work.ic74107_single port map (
+  A2a : entity work.ic74107 port map (
     j => v_ball_video_int,
     k => v_ball_video_int,
     clk => v_blank,
+    clk_sync => clk_sync,
     reset => not hit,
+    set => '1',
     output => a2a_out
     );
 
   B5a : entity work.ic7474 port map (
     data => not ((paddle_d_1 and not h256) or (paddle_d_2 and h256)),
     clk => hit,
+    clk_sync => clk_sync,
     reset => '1',
     clr => not attract,
     output => b5a_out
@@ -65,6 +70,7 @@ begin
   A5a : entity work.ic7474 port map (
     data => not ((paddle_c_1 and not h256) or (paddle_c_2 and h256)),
     clk => hit,
+    clk_sync => clk_sync,
     reset => '1',
     clr => not attract,
     output => a5a_out
@@ -73,6 +79,7 @@ begin
   A5b : entity work.ic7474 port map (
     data => not ((paddle_b_1 and not h256) or (paddle_b_2 and h256)),
     clk => hit,
+    clk_sync => clk_sync,
     reset => '1',
     clr => not attract,
     output => a5b_out
@@ -88,6 +95,7 @@ begin
 
   B3 : entity work.ic9316 port map (
     clk => not h_sync,
+    clk_sync => clk_sync,
     clr => '1',
 
     load => b2b_out,
@@ -102,6 +110,7 @@ begin
 
   A3 : entity work.ic9316 port map (
     clk => not h_sync,
+    clk_sync => clk_sync,
     clr => '1',
 
     load => b2b_out,

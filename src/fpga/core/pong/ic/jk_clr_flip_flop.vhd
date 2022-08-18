@@ -1,6 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+-- TODO: Delete
 entity jk_clr_flip_flop is
   port (
     j : in std_logic;

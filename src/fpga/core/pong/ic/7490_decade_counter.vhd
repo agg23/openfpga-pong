@@ -4,6 +4,8 @@ use ieee.numeric_std.all;
 
 entity ic7490 is
   port (
+    clk_sync : in std_logic;
+
     clk_1bit : in std_logic;
     clk_3bit : in std_logic;
 
@@ -26,46 +28,50 @@ architecture rtl of ic7490 is
   signal q_c : std_logic;
   signal q_d : std_logic;
 begin
-  A : entity work.jk_clr_flip_flop port map (
+  A : entity work.ic74107 port map (
     j => '1',
     k => '1',
 
     clk => clk_1bit,
+    clk_sync => clk_sync,
     set => r9,
-    clr => r0,
+    reset => r0,
 
     output => q_a
     );
 
-  B : entity work.jk_clr_flip_flop port map (
+  B : entity work.ic74107 port map (
     j => not q_d,
     k => '1',
 
     clk => clk_3bit,
+    clk_sync => clk_sync,
     set => '1',
-    clr => clr,
+    reset => clr,
 
     output => q_b
     );
 
-  C : entity work.jk_clr_flip_flop port map (
+  C : entity work.ic74107 port map (
     j => '1',
     k => '1',
 
     clk => q_b,
+    clk_sync => clk_sync,
     set => '1',
-    clr => clr,
+    reset => clr,
 
     output => q_c
     );
 
-  D : entity work.jk_clr_flip_flop port map (
+  D : entity work.ic74107 port map (
     j => q_c and q_b,
     k => q_d,
 
     clk => clk_3bit,
+    clk_sync => clk_sync,
     set => r9,
-    clr => r0,
+    reset => r0,
 
     output => q_d
     );

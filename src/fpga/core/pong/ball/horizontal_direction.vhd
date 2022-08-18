@@ -3,6 +3,8 @@ use ieee.std_logic_1164.all;
 
 entity ball_horizontal_direction is
   port (
+    clk_sync : in std_logic;
+
     move : in std_logic;
 
     hit_1 : in std_logic;
@@ -27,6 +29,7 @@ begin
   H3b : entity work.ic7474 port map (
     -- not (not (score and attract))
     clk => score_sound and attract,
+    clk_sync => clk_sync,
 
     reset => not hit_2,
     clr => not hit_1,

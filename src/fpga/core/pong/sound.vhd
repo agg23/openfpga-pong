@@ -5,6 +5,7 @@ use ieee.numeric_std.all;
 entity sound is
   port (
     clk_7_159 : in std_logic;
+    clk_sync : in std_logic;
 
     attract : in std_logic;
     serve : in std_logic;
@@ -39,12 +40,14 @@ architecture rtl of sound is
 
   signal timer_g4_out : std_logic;
 begin
-  F3a : entity work.ic74107_single port map (
+  F3a : entity work.ic74107 port map (
     j => v_ball_video,
     k => not v_ball_video,
 
     clk => v_blank,
+    clk_sync => clk_sync,
     reset => not serve,
+    set => '1',
 
     output => f3a_out
     );
@@ -53,6 +56,7 @@ begin
     data => '1',
 
     clk => v_ball240,
+    clk_sync => clk_sync,
 
     reset => '1',
     clr => not hit,

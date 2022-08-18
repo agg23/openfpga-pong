@@ -404,6 +404,7 @@ module core_top (
 
   pong pong (
          .clk_7_159 ( clk_core_7159 ),
+         .clk_sync ( clk_sync_28_636 ),
 
          .p1_up ( cont1_key[0] ),
          .p1_down ( cont1_key[1] ),
@@ -599,6 +600,7 @@ module core_top (
 
   wire    clk_core_7159;
   wire    clk_core_7159_90deg;
+  wire    clk_sync_28_636;
 
   wire    pll_core_locked;
 
@@ -608,6 +610,7 @@ module core_top (
 
                .outclk_0       ( clk_core_7159 ),
                .outclk_1       ( clk_core_7159_90deg ),
+               .outclk_2       ( clk_sync_28_636 ),
 
                .locked         ( pll_core_locked )
              );

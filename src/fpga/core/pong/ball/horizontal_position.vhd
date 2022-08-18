@@ -5,6 +5,7 @@ use ieee.numeric_std.all;
 entity ball_horizontal_position is
   port (
     clk_7_159 : in std_logic;
+    clk_sync : in std_logic;
 
     aa : in std_logic;
     ba : in std_logic;
@@ -32,6 +33,7 @@ architecture rtl of ball_horizontal_position is
 begin
   G7 : entity work.ic9316 port map (
     clk => clk_7_159,
+    clk_sync => clk_sync,
 
     clr => reset_e1b_out,
 
@@ -47,6 +49,7 @@ begin
 
   H7 : entity work.ic9316 port map (
     clk => clk_7_159,
+    clk_sync => clk_sync,
 
     clr => reset_e1b_out,
 
@@ -60,12 +63,14 @@ begin
     ripple_carry_output => h7_ripple_carry
     );
 
-  G6b : entity work.ic74107_single port map (
+  G6b : entity work.ic74107 port map (
     j => '1',
     k => '1',
 
     clk => h7_ripple_carry,
+    clk_sync => clk_sync,
     reset => reset_e1b_out,
+    set => '1',
 
     output => g6b_out
     );

@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity ic7474 is
+entity ic7474_old is
   port (
     data : in std_logic;
 
@@ -14,7 +14,7 @@ entity ic7474 is
   );
 end entity;
 
-architecture rtl of ic7474 is
+architecture rtl of ic7474_old is
 begin
   process (clk, reset, clr)
   begin

@@ -5,6 +5,7 @@ use ieee.numeric_std.all;
 entity pong is
   port (
     clk_7_159 : in std_logic;
+    clk_sync : in std_logic;
 
     p1_up : in std_logic;
     p1_down : in std_logic;
@@ -77,6 +78,7 @@ architecture rtl of pong is
 begin
   VIDEO_GEN : entity work.video port map (
     clk_7_159 => clk_7_159,
+    clk_sync => clk_sync,
 
     pad_1 => pad_1,
     pad_2 => pad_2,
@@ -102,6 +104,8 @@ begin
     );
 
   PAD1 : entity work.paddle port map (
+    clk_sync => clk_sync,
+
     paddle_pos => paddle_pos_1,
 
     h_sync => h_sync,
@@ -121,6 +125,8 @@ begin
     );
 
   PAD2 : entity work.paddle port map (
+    clk_sync => clk_sync,
+
     paddle_pos => paddle_pos_2,
 
     h_sync => h_sync,
@@ -141,6 +147,8 @@ begin
     );
 
   SCORE : entity work.score port map (
+    clk_sync => clk_sync,
+
     h_ball_video => h_ball_video,
     h_blank => h_blank,
 
@@ -174,6 +182,7 @@ begin
 
   BALL_HORIZONTAL : entity work.ball_horizontal port map (
     clk_7_159 => clk_7_159,
+    clk_sync => clk_sync,
 
     v_reset => v_reset,
     h_blank => h_blank,
@@ -198,6 +207,8 @@ begin
     );
 
   BALL_VERTICAL : entity work.ball_vertical port map (
+    clk_sync => clk_sync,
+
     v_blank => v_blank,
     h_sync => h_sync,
     h256 => h_count(8),
@@ -221,6 +232,7 @@ begin
 
   SOUND_GEN : entity work.sound port map (
     clk_7_159 => clk_7_159,
+    clk_sync => clk_sync,
 
     attract => attract,
     serve => serve,
@@ -244,6 +256,7 @@ begin
 
   CONTROL : entity work.game_control port map (
     clk_7_159 => clk_7_159,
+    clk_sync => clk_sync,
 
     pad_1 => pad_1,
 
