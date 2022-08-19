@@ -382,6 +382,8 @@ module core_top (
 
                   );
 
+  reg prev_button_15 = 0;
+  reg coin_insert = 0;
   wire sound;
 
   pong pong (
@@ -394,7 +396,7 @@ module core_top (
          .p2_up ( cont1_key[6] ),
          .p2_down ( cont1_key[5] ),
 
-         .coin_insert ( cont1_key[15] ),
+         .coin_insert ( coin_insert ),
 
          .video_de ( video_de ),
          .video_vs ( video_vs ),
@@ -405,12 +407,19 @@ module core_top (
          .sound ( sound )
        );
 
+  always @(posedge clk_core_7159)
+  begin
+    coin_insert <= 0;
+    if (!prev_button_15 && cont1_key[15])
+      coin_insert <= 1;
+    prev_button_15 = cont1_key[15];
+  end
+
   assign video_rgb_clock = clk_core_7159;
   assign video_rgb_clock_90 = clk_core_7159_90deg;
 
   //
-  // audio i2s silence generator
-  // see other examples for actual audio generation
+  // audio i2s square wave generator
   //
 
   assign audio_mclk = audgen_mclk;

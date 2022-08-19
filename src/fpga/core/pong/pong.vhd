@@ -12,7 +12,7 @@ entity pong is
     p2_up : in std_logic;
     p2_down : in std_logic;
 
-    coin_insert : std_logic;
+    coin_insert : in std_logic;
 
     video_de : out std_logic;
     video_vs : out std_logic;
