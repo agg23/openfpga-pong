@@ -36,13 +36,13 @@ begin
     -- end loop;
     wait for 50 ms;
 
-    coin_insert <= '1';
+    -- coin_insert <= '1';
 
-    wait for 10 ms;
+    -- wait for 10 ms;
 
-    coin_insert <= '0';
+    -- coin_insert <= '0';
 
-    wait for 200 ms;
+    -- wait for 200 ms;
 
     -- wait for 100 ms;
     stop;

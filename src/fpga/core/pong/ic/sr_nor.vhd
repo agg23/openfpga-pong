@@ -13,30 +13,17 @@ entity sr_nor_sync is
 end entity;
 
 architecture rtl of sr_nor_sync is
-  signal s_buf : std_logic := '0';
-  signal r_buf : std_logic := '0';
-
   signal output_int : std_logic := '0';
   signal prev_output : std_logic := '0';
 begin
   process (clk_sync)
   begin
     if rising_edge(clk_sync) then
-      prev_output <= output_int;
-
-      s_buf <= s;
-      r_buf <= r;
-    end if;
-  end process;
-
-  process (s_buf, r_buf, prev_output)
-  begin
-    output_int <= prev_output;
-
-    if s_buf = '1' and r_buf = '0' then
-      output_int <= '0';
-    elsif s_buf = '0' and r_buf = '1' then
-      output_int <= '1';
+      if s = '1' and r = '0' then
+        output_int <= '0';
+      elsif s = '0' and r = '1' then
+        output_int <= '1';
+      end if;
     end if;
   end process;
 

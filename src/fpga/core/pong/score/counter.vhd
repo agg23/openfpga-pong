@@ -97,20 +97,23 @@ begin
   s1_out <= c8a_out & c7_out;
   s2_out <= c8b_out & d7_out;
 
-  process (s1_out, s2_out, score_stop_at_15)
+  -- Synchronous variant of stop_game NAND. Without clocking the output, a large comb. loop is formed
+  process (clk_sync)
     variable s1_met_score : std_logic;
     variable s2_met_score : std_logic;
   begin
-    if score_stop_at_15 = '1' then
-      -- 10 + 4 + 1 = 15
-      s1_met_score := not (s1_out(0) and s1_out(2) and s1_out(4));
-      s2_met_score := not (s2_out(0) and s2_out(2) and s2_out(4));
-    else
-      -- 10 + 1 = 11
-      s1_met_score := not (s1_out(0) and s1_out(4));
-      s2_met_score := not (s2_out(0) and s2_out(4));
-    end if;
+    if rising_edge(clk_sync) then
+      if score_stop_at_15 = '1' then
+        -- 10 + 4 + 1 = 15
+        s1_met_score := not (s1_out(0) and s1_out(2) and s1_out(4));
+        s2_met_score := not (s2_out(0) and s2_out(2) and s2_out(4));
+      else
+        -- 10 + 1 = 11
+        s1_met_score := not (s1_out(0) and s1_out(4));
+        s2_met_score := not (s2_out(0) and s2_out(4));
+      end if;
 
-    stop_game <= not (s1_met_score and s2_met_score);
+      stop_game <= not (s1_met_score and s2_met_score);
+    end if;
   end process;
 end architecture;

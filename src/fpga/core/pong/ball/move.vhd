@@ -66,7 +66,14 @@ begin
     output => h2a_out
     );
 
-  e1c_out <= not (f1_count(2) and f1_count(3));
+  -- Synchronous variant of e1c. Without clocking the output, e1c will immediately clock F1 on change of f1_count
+  process (clk_sync)
+  begin
+    if rising_edge(clk_sync) then
+      e1c_out <= not (f1_count(2) and f1_count(3));
+    end if;
+  end process;
+
   -- not (not (count(2) or count(3)))
   h1a_out <= f1_count(2) or f1_count(3);
   h1d_out <= not (e1c_out and h1a_out);

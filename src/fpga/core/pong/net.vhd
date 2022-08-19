@@ -21,7 +21,8 @@ architecture rtl of net is
 begin
   F3b : entity work.ic74107 port map (
     clk => not clk_7_159,
-    clk_sync => clk_sync,
+    -- Sync clock must be inverted to match with the main clock
+    clk_sync => not clk_sync,
 
     j => h256,
     k => not h256,

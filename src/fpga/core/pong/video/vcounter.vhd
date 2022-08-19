@@ -13,7 +13,6 @@ entity vcounter is
 end entity;
 
 architecture rtl of vcounter is
-  -- signal count : unsigned (8 downto 0) := 9b"0";
   signal e8_count : unsigned (3 downto 0);
   signal e9_count : unsigned (3 downto 0);
 
@@ -74,26 +73,4 @@ begin
   v_count <= v256 & e9_count & e8_count;
   v_reset_int <= not not_v_reset;
   v_reset <= v_reset_int;
-
-  -- v_count <= count;
-
-  -- process (h_reset_clk)
-  -- begin
-  --   if v_reset then
-  --     count <= 9b"0";
-  --   elsif falling_edge(h_reset_clk) then
-  --     count <= count + 1;
-  --   end if;
-  -- end process;
-
-  -- process (h_reset_clk)
-  -- begin
-  --   if rising_edge(h_reset_clk) then
-  --     if count = 261 then
-  --       v_reset <= '1';
-  --     else
-  --       v_reset <= '0';
-  --     end if;
-  --   end if;
-  -- end process;
 end architecture;

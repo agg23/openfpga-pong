@@ -14,7 +14,7 @@ entity hcounter is
 end entity;
 
 architecture rtl of hcounter is
-  -- signal count : unsigned (8 downto 0) := 9b"0";
+  signal count : unsigned (8 downto 0) := 9b"0";
   signal f8_count : unsigned (3 downto 0);
   signal f9_count : unsigned (3 downto 0);
 
@@ -24,7 +24,7 @@ architecture rtl of hcounter is
   signal not_h_reset : std_logic;
   signal h_reset_int : std_logic;
 begin
-  E7b : entity work.ic7474 port map (
+  E7b : entity work.ic7474 port map(
     clk => clk_7_159,
     clk_sync => clk_sync,
 
@@ -78,24 +78,4 @@ begin
   h_reset <= h_reset_int;
 
   h_count <= h256 & f9_count & f8_count;
-
-  -- process (clk_7_159, h_reset)
-  -- begin
-  --   if h_reset then
-  --     count <= 9b"0";
-  --   elsif falling_edge(clk_7_159) then
-  --     count <= count + 1;
-  --   end if;
-  -- end process;
-
-  -- process (clk_7_159)
-  -- begin
-  --   if rising_edge(clk_7_159) then
-  --     if count = 454 then
-  --       h_reset <= '1';
-  --     else
-  --       h_reset <= '0';
-  --     end if;
-  --   end if;
-  -- end process;
 end architecture;

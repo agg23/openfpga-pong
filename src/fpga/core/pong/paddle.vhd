@@ -26,6 +26,8 @@ entity paddle is
 end entity;
 
 architecture rtl of paddle is
+  signal prev_h_sync : std_logic;
+
   signal trigger_555 : std_logic := '0';
   signal count_555 : unsigned (8 downto 0) := 9b"0";
 
@@ -49,11 +51,6 @@ begin
 
     count => b8_count
     );
-
-  -- process (a7b_out)
-  -- begin
-  --   report "a7b changed 0x" & to_hstring(b8_count) & " value " & std_logic'image(not (not h_sync and a7b_out));
-  -- end process;
 
   -- Position the paddle on the left/right of the screen, with a width of 4 pixels
   H3A : entity work.ic7474 port map (data => h128, clk => h4, clk_sync => clk_sync, reset => not attract, clr => '1', output => not_h3a_out);
@@ -80,34 +77,38 @@ begin
   pad <= v_pad and not h256 and not_g3c_out;
 
   -- Timing logic copied from https://github.com/MiSTer-devel/Arcade-Pong_MiSTer/blob/master/rtl/paddle.v
-  process (h_sync)
+  process (clk_sync)
     variable v : unsigned (8 downto 0);
   begin
-    if rising_edge(h_sync) then
-      if count_555 > 0 then
-        count_555 <= count_555 - 1;
+    if rising_edge(clk_sync) then
+      if prev_h_sync = '0' and h_sync = '1' then
+        if count_555 > 0 then
+          count_555 <= count_555 - 1;
 
-        if count_555 = 1 then
-          trigger_555 <= '0';
+          if count_555 = 1 then
+            trigger_555 <= '0';
+          end if;
+        elsif count_555 = 0 and v256 = '1' then
+          -- 261 max timing - 256 = 5
+          -- 16 v_blank lines
+          -- 5 + 16 = 21 total lines
+          v := ('0' & paddle_pos) + 21;
+
+          if v < 38 then
+            -- Prevent paddle from going off top of screen
+            count_555 <= 9d"38";
+          elsif v > 261 then
+            -- Prevent paddle from going off bottom of screen
+            count_555 <= 9d"261";
+          else
+            count_555 <= v;
+          end if;
+
+          trigger_555 <= '1';
         end if;
-      elsif count_555 = 0 and v256 = '1' then
-        -- 261 max timing - 256 = 5
-        -- 16 v_blank lines
-        -- 5 + 16 = 21 total lines
-        v := ('0' & paddle_pos) + 21;
-
-        if v < 38 then
-          -- Prevent paddle from going off top of screen
-          count_555 <= 9d"38";
-        elsif v > 261 then
-          -- Prevent paddle from going off bottom of screen
-          count_555 <= 9d"261";
-        else
-          count_555 <= v;
-        end if;
-
-        trigger_555 <= '1';
       end if;
+
+      prev_h_sync <= h_sync;
     end if;
   end process;
 end architecture;

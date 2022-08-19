@@ -57,7 +57,7 @@ begin
   VCOUNTER : entity work.vcounter port map (clk_sync => clk_sync, h_reset => h_reset, v_reset => v_reset_int, v_count => v_count_int);
 
   HSYNC : entity work.hsync port map (
-    clk_sync => clk_sync,
+    clk_7_159 => clk_7_159,
 
     h16 => h_count_int(4),
     h32 => h_count_int(5),
