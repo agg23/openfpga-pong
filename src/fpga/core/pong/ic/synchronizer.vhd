@@ -1,6 +1,11 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+-- Synchronization component for implementing 74* series TTL logic on FPGAs
+--
+-- Takes `input_count` number of inputs and buffers them along with the previous output, performed on the `clk_sync` rising edge
+-- When `clk_orig` rises (or falls, based on the `rising` generic), `clk_out` will go high, and the consuming component can consider this
+-- as the signal to perform logic `if clk_out = '1' then`
 entity synchronizer is
   generic (
     input_count : natural;

@@ -13,7 +13,10 @@ entity ball_horizontal_direction is
     attract : in std_logic;
     score_sound : in std_logic;
 
-    -- TODO: What are these?
+    -- Values to feed into G7 and H7 ball period counter
+    -- When aa: 0, ba: 1, period will be 374
+    -- When aa: 1, ba: 1, period will be 373 (move ball left)
+    -- When aa: 1, ba: 0, period will be 375 (move ball right)
     out_aa : out std_logic;
     out_ba : out std_logic;
 

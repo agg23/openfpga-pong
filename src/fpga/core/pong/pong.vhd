@@ -49,6 +49,7 @@ architecture rtl of pong is
   signal miss : std_logic;
   signal stop_game : std_logic;
 
+  -- This is configurable via a dip switch. When low, the game will end when the score = 11, when high, it will end at 15
   signal score_stop_at_15 : std_logic := '0';
 
   signal hit_sound : std_logic;

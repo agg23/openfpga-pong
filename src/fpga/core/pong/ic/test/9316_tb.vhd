@@ -1,3 +1,5 @@
+-- These test benches are out of date and will not function without modificiation
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;

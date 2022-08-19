@@ -48,7 +48,6 @@ architecture rtl of video is
   signal combined_ball_g1b_out : std_logic;
 
   -- Generated video
-  -- signal combined_sync : std_logic;
   signal combined_pads_net_ball : std_logic;
 
   signal video : unsigned (7 downto 0);
@@ -99,7 +98,7 @@ begin
 
   hit <= hit_1 or hit_2;
 
-  -- Unused in output
+  -- Unused in output, but appears in schematic
   -- combined_sync <= not ((not hsync) xor (not vsync));
   combined_pads_net_ball <= pad_1 or pad_2 or net or combined_ball_g1b_out;
 
@@ -118,7 +117,6 @@ begin
       -- TODO: Find right color
       video <= x"BB";
     elsif combined_pads_net_ball = '1' then
-      -- TODO: Find right color
       video <= x"FF";
     end if;
   end process;

@@ -1,3 +1,5 @@
+-- These test benches are out of date and will not function without modificiation
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -38,10 +40,10 @@ begin
   begin
     -- Test single bit
     -- r_1 <= '1';
--- r_2 <= '1';
--- wait for clk_half_period;
--- r_1 <= '0';
--- r_2 <= '0';
+    -- r_2 <= '1';
+    -- wait for clk_half_period;
+    -- r_1 <= '0';
+    -- r_2 <= '0';
 
     wait for 0.5 ns;
     bit1 <= '1';

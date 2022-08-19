@@ -21,18 +21,6 @@ architecture rtl of vsync is
 begin
   F5 : entity work.sr_nor_sync port map (clk_sync => clk_sync, s => v_reset, r => v16, output => not_v_blank);
 
-  -- F5 : entity work.sr_sync port map(
-  --   clk => clk_7_159,
-  --   clk_sync => clk_sync,
-
-  --   s => not v_reset,
-  --   r => not v16,
-
-  --   clr => '1',
-  --   set => '1',
-
-  --   output => v_blank);
-
   v_blank <= not not_v_blank;
   v_sync <= v_blank and v4 and not v8;
 end architecture;
