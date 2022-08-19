@@ -382,24 +382,6 @@ module core_top (
 
                   );
 
-
-
-  ////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-  // video generation
-  // ~12,288,000 hz pixel clock
-  //
-  // we want our video mode of 320x240 @ 60hz, this results in 204800 clocks per frame
-  // we need to add hblank and vblank times to this, so there will be a nondisplay area.
-  // it can be thought of as a border around the visible area.
-  // to make numbers simple, we can have 400 total clocks per line, and 320 visible.
-  // dividing 204800 by 400 results in 512 total lines per frame, and 240 visible.
-  // this pixel clock is fairly high for the relatively low resolution, but that's fine.
-  // PLL output has a minimum output frequency anyway.
-
-  // TODO: Consume
   wire sound;
 
   pong pong (
@@ -425,98 +407,6 @@ module core_top (
 
   assign video_rgb_clock = clk_core_7159;
   assign video_rgb_clock_90 = clk_core_7159_90deg;
-  // assign video_rgb = vidout_rgb;
-  // assign video_de = vidout_de;
-  // assign video_skip = vidout_skip;
-  // assign video_vs = vidout_vs;
-  // assign video_hs = vidout_hs;
-
-  //     localparam  VID_V_BPORCH = 'd10;
-  //     localparam  VID_V_ACTIVE = 'd240;
-  //     localparam  VID_V_TOTAL = 'd512;
-  //     localparam  VID_H_BPORCH = 'd10;
-  //     localparam  VID_H_ACTIVE = 'd320;
-  //     localparam  VID_H_TOTAL = 'd400;
-
-  //     reg [15:0]  frame_count;
-
-  //     reg [9:0]   x_count;
-  //     reg [9:0]   y_count;
-
-  //     wire [9:0]  visible_x = x_count - VID_H_BPORCH;
-  //     wire [9:0]  visible_y = y_count - VID_V_BPORCH;
-
-  //     reg [23:0]  vidout_rgb;
-  //     reg         vidout_de, vidout_de_1;
-  //     reg         vidout_skip;
-  //     reg         vidout_vs;
-  //     reg         vidout_hs, vidout_hs_1;
-
-  //     reg [9:0]   square_x = 'd135;
-  //     reg [9:0]   square_y = 'd95;
-
-  // always @(posedge clk_core_7159 or negedge reset_n) begin
-
-  //     if(~reset_n) begin
-
-  //         x_count <= 0;
-  //         y_count <= 0;
-
-  //     end else begin
-  //         vidout_de <= 0;
-  //         vidout_skip <= 0;
-  //         vidout_vs <= 0;
-  //         vidout_hs <= 0;
-
-  //         vidout_hs_1 <= vidout_hs;
-  //         vidout_de_1 <= vidout_de;
-
-  //         // x and y counters
-  //         x_count <= x_count + 1'b1;
-  //         if(x_count == VID_H_TOTAL-1) begin
-  //             x_count <= 0;
-
-  //             y_count <= y_count + 1'b1;
-  //             if(y_count == VID_V_TOTAL-1) begin
-  //                 y_count <= 0;
-  //             end
-  //         end
-
-  //         // generate sync
-  //         if(x_count == 0 && y_count == 0) begin
-  //             // sync signal in back porch
-  //             // new frame
-  //             vidout_vs <= 1;
-  //             frame_count <= frame_count + 1'b1;
-  //         end
-
-  //         // we want HS to occur a bit after VS, not on the same cycle
-  //         if(x_count == 3) begin
-  //             // sync signal in back porch
-  //             // new line
-  //             vidout_hs <= 1;
-  //         end
-
-  //         // inactive screen areas are black
-  //         vidout_rgb <= 24'h0;
-  //         // generate active video
-  //         if(x_count >= VID_H_BPORCH && x_count < VID_H_ACTIVE+VID_H_BPORCH) begin
-
-  //             if(y_count >= VID_V_BPORCH && y_count < VID_V_ACTIVE+VID_V_BPORCH) begin
-  //                 // data enable. this is the active region of the line
-  //                 vidout_de <= 1;
-
-  //                 vidout_rgb[23:16] <= 8'd60;
-  //                 vidout_rgb[15:8]  <= 8'd60;
-  //                 vidout_rgb[7:0]   <= 8'd60;
-
-  //             end
-  //         end
-  //     end
-  // end
-
-
-
 
   //
   // audio i2s silence generator
@@ -546,7 +436,6 @@ module core_top (
   // generate SCLK = 3.072mhz by dividing MCLK by 4
   reg [1:0]   aud_mclk_divider;
   wire        audgen_sclk = aud_mclk_divider[1] /* synthesis keep*/;
-  reg         audgen_lrck_1;
   always @(posedge audgen_mclk)
   begin
     aud_mclk_divider <= aud_mclk_divider + 1'b1;
@@ -555,18 +444,15 @@ module core_top (
   // shift out audio data as I2S
   // 32 total bits per channel, but only 16 active bits at the start and then 16 dummy bits
   //
-  // synchronize audio samples coming from the ram readout
+  // synchronize audio samples coming from the core
   wire	[31:0]	audgen_sampdata_s;
-  synch_3 #(.WIDTH(32)) s5(sound ? 32'hF000F000 : 32'b0, audgen_sampdata_s, audgen_sclk);
-  //reg		[31:0]	audgen_sampdata = 32'hF0008000;
+  synch_3 #(.WIDTH(32)) s5(sound ? 32'h70007000 : 32'b0, audgen_sampdata_s, audgen_sclk);
   reg		[31:0]	audgen_sampshift;
   reg		[4:0]	audgen_lrck_cnt;
   reg				audgen_lrck;
   reg				audgen_dac;
   always @(negedge audgen_sclk)
   begin
-    audgen_nextsamp <= 0;
-
     // output the next bit
     audgen_dac <= audgen_sampshift[31];
 
@@ -577,21 +463,16 @@ module core_top (
       // switch channels
       audgen_lrck <= ~audgen_lrck;
 
-      if(audgen_lrck)
+      // Reload sample shifter
+      if(~audgen_lrck)
       begin
-        // load new sample
-        audgen_nextsamp <= 1;
-        // RIFF wave data is stored as 16bit little endian signed, so byteswap 16-bit
-        audgen_sampshift <= {audgen_sampdata_s};
+        audgen_sampshift <= audgen_sampdata_s;
       end
     end
-    else
+    else if(audgen_lrck_cnt < 16)
     begin
       // only shift for 16 clocks per channel
-      if(audgen_lrck_cnt < 16)
-      begin
-        audgen_sampshift <= {audgen_sampshift[30:0], 1'b0};
-      end
+      audgen_sampshift <= {audgen_sampshift[30:0], 1'b0};
     end
   end
 
