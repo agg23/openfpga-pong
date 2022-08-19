@@ -741,7 +741,6 @@ set_global_assignment -name VHDL_INPUT_VERSION VHDL_2008
 set_global_assignment -name VHDL_SHOW_LMF_MAPPING_MESSAGES OFF
 set_global_assignment -name VHDL_FILE core/pong/ic/sr_nor.vhd
 set_global_assignment -name VHDL_FILE core/pong/ic/sr_nand.vhd
-set_global_assignment -name VHDL_FILE core/pong/ic/sr_sync.vhd
 set_global_assignment -name VHDL_FILE core/pong/ic/synchronizer.vhd
 set_global_assignment -name VHDL_FILE core/pong/ic/7474_sync.vhd
 set_global_assignment -name VHDL_FILE core/pong/game_control.vhd
@@ -765,7 +764,6 @@ set_global_assignment -name VHDL_FILE core/pong/ball/horizontal_position.vhd
 set_global_assignment -name VHDL_FILE core/pong/ball/horizontal_direction.vhd
 set_global_assignment -name VHDL_FILE core/pong/ball/horizontal.vhd
 set_global_assignment -name VHDL_FILE core/pong/paddle.vhd
-set_global_assignment -name VHDL_FILE core/pong/ic/sr_latch.vhd
 set_global_assignment -name VHDL_FILE core/pong/ic/74107_neg_flip_flop.vhd
 set_global_assignment -name VHDL_FILE core/pong/ic/7493_4bit_counter.vhd
 set_global_assignment -name VHDL_FILE core/pong/ic/7474_flip_flop.vhd
