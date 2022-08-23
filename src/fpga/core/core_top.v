@@ -405,6 +405,11 @@ module core_top (
   reg double_paddle_height = 0;
   reg training_mode = 0;
 
+  wire video_de_pong;
+  wire video_vs_pong;
+  wire video_hs_pong;
+  wire [23:0] video_rgb_pong;
+
   wire sound;
 
   pong pong (
@@ -422,11 +427,11 @@ module core_top (
          .double_paddle_height ( double_paddle_height ),
          .training_mode ( training_mode ),
 
-         .video_de ( video_de ),
-         .video_vs ( video_vs ),
-         .video_hs ( video_hs ),
+         .video_de ( video_de_pong ),
+         .video_vs ( video_vs_pong ),
+         .video_hs ( video_hs_pong ),
 
-         .video_rgb ( video_rgb ),
+         .video_rgb ( video_rgb_pong ),
 
          .sound ( sound )
        );
@@ -441,6 +446,47 @@ module core_top (
 
   assign video_rgb_clock = clk_core_7159;
   assign video_rgb_clock_90 = clk_core_7159_90deg;
+
+  //
+  // Video cleanup
+  // APF scaler requires HSync and VSync to last for a single clock, and video_rgb to be 0 when video_de is low
+  //
+  reg video_de_reg;
+  reg video_hs_reg;
+  reg video_vs_reg;
+  reg [23:0] video_rgb_reg;
+
+  assign video_de = video_de_reg;
+  assign video_hs = video_hs_reg;
+  assign video_vs = video_vs_reg;
+  assign video_rgb = video_rgb_reg;
+
+  reg hs_prev;
+  reg vs_prev;
+  reg de_prev;
+  reg [23:0] rgb_prev;
+
+  always @(posedge clk_core_7159)
+  begin
+    video_de_reg <= 0;
+    video_rgb_reg <= 24'h0;
+
+    if (de_prev)
+    begin
+      video_de_reg <= 1;
+
+      video_rgb_reg <= rgb_prev;
+    end
+
+    // Set HSync and VSync to be high for a single cycle on the falling edge of the HSync and VSync coming out of Pong
+    video_hs_reg <= hs_prev && ~video_hs_pong;
+    video_vs_reg <= vs_prev && ~video_vs_pong;
+    hs_prev <= video_hs_pong;
+    vs_prev <= video_vs_pong;
+    de_prev <= video_de_pong;
+    rgb_prev <= video_rgb_pong;
+  end
+
 
   //
   // audio i2s square wave generator
