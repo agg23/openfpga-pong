@@ -1,0 +1,5 @@
+The arcade game classic, Pong, in its original form. Video, sound, and bugs are reproduced from the original schematic.
+
+Features additional "cheats":
+* Extended paddles
+* Training mode
