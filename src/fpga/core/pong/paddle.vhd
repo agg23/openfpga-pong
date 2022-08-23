@@ -17,6 +17,9 @@ entity paddle is
 
     attract : in std_logic;
 
+    double_paddle_height : in std_logic;
+    training_mode : in std_logic := '0';
+
     paddle_b : out std_logic;
     paddle_c : out std_logic;
     paddle_d : out std_logic;
@@ -32,6 +35,9 @@ architecture rtl of paddle is
   signal count_555 : unsigned (8 downto 0) := 9b"0";
 
   signal b8_count : unsigned (3 downto 0);
+  -- Custom registers (not in schematic) to provide extended paddle height
+  signal custom_b8_3_prev : std_logic;
+  signal custom_32_count : std_logic;
 
   signal a7b_out : std_logic;
   signal v_pad : std_logic;
@@ -59,7 +65,21 @@ begin
   process (clk_sync)
   begin
     if rising_edge(clk_sync) then
-      a7b_out <= not (b8_count(0) and b8_count(1) and b8_count(2) and b8_count(3));
+      if training_mode = '1' then
+        a7b_out <= '1';
+        -- This provides the _custom_ functionality for doubling paddle height. This is not part of the original schematic
+      elsif double_paddle_height = '1' then
+        if b8_count(3) = '0' and custom_b8_3_prev = '1' then
+          -- b8_count(3) fell, clocking 32 count
+          custom_32_count <= not custom_32_count;
+        end if;
+
+        custom_b8_3_prev <= b8_count(3);
+
+        a7b_out <= not (b8_count(0) and b8_count(1) and b8_count(2) and b8_count(3) and custom_32_count);
+      else
+        a7b_out <= not (b8_count(0) and b8_count(1) and b8_count(2) and b8_count(3));
+      end if;
     end if;
   end process;
 
@@ -93,6 +113,10 @@ begin
           -- 16 v_blank lines
           -- 5 + 16 = 21 total lines
           v := ('0' & paddle_pos) + 21;
+
+          if training_mode = '1' then
+            v := 9d"0";
+          end if;
 
           if v < 38 then
             -- Prevent paddle from going off top of screen

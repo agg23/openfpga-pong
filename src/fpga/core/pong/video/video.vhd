@@ -110,7 +110,7 @@ begin
   v_count <= v_count_int;
   v_reset <= v_reset_int;
 
-  process (h_blank_int, v_blank_int, combined_pads_net_ball, score_video)
+  process (combined_pads_net_ball, score_video)
   begin
     video <= x"00";
     if score_video = '1' then

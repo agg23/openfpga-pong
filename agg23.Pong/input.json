@@ -1,6 +1,27 @@
 {
     "input": {
         "magic": "APF_VER_1",
-        "controllers": []
+        "controllers": [
+            {
+                "type": "default",
+                "mappings": [
+                    {
+                        "id": 10,
+                        "name": "P2 Paddle Up",
+                        "key": "pad_btn_x"
+                    },
+                    {
+                        "id": 11,
+                        "name": "P2 Paddle Down",
+                        "key": "pad_btn_b"
+                    },
+                    {
+                        "id": 20,
+                        "name": "Insert coin",
+                        "key": "pad_btn_start"
+                    }
+                ]
+            }
+        ]
     }
 }

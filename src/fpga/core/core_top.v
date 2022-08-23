@@ -265,16 +265,32 @@ module core_top (
   always @(*)
   begin
     casex(bridge_addr)
-      32'h10xxxxxx:
-      begin
-        // example
-        // bridge_rd_data <= example_device_data;
-      end
       32'hF8xxxxxx:
       begin
         bridge_rd_data <= cmd_bridge_rd_data;
       end
     endcase
+  end
+
+  always @(posedge clk_74a)
+  begin
+    if(bridge_wr)
+    begin
+      casex(bridge_addr)
+        32'h00000000:
+        begin
+          score_stop_at_15 <= bridge_wr_data[0:0];
+        end
+        32'h00000014:
+        begin
+          double_paddle_height <= bridge_wr_data[0:0];
+        end
+        32'h00000018:
+        begin
+          training_mode <= bridge_wr_data[0:0];
+        end
+      endcase
+    end
   end
 
 
@@ -384,6 +400,11 @@ module core_top (
 
   reg prev_button_15 = 0;
   reg coin_insert = 0;
+
+  reg score_stop_at_15 = 0;
+  reg double_paddle_height = 0;
+  reg training_mode = 0;
+
   wire sound;
 
   pong pong (
@@ -397,6 +418,9 @@ module core_top (
          .p2_down ( cont1_key[5] ),
 
          .coin_insert ( coin_insert ),
+         .score_stop_at_15 ( score_stop_at_15 ),
+         .double_paddle_height ( double_paddle_height ),
+         .training_mode ( training_mode ),
 
          .video_de ( video_de ),
          .video_vs ( video_vs ),

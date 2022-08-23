@@ -14,6 +14,15 @@ entity pong is
 
     coin_insert : in std_logic;
 
+    -- Configuration
+    -- This is configurable via a dip switch. When low, the game will end when the score = 11, when high, it will end at 15
+    score_stop_at_15 : in std_logic;
+
+    -- This isn't functionality in the standard arcade. Many people added this functionality though
+    double_paddle_height : in std_logic;
+
+    training_mode : in std_logic;
+
     video_de : out std_logic;
     video_vs : out std_logic;
     video_hs : out std_logic;
@@ -48,9 +57,6 @@ architecture rtl of pong is
   signal reset_speed : std_logic;
   signal miss : std_logic;
   signal stop_game : std_logic;
-
-  -- This is configurable via a dip switch. When low, the game will end when the score = 11, when high, it will end at 15
-  signal score_stop_at_15 : std_logic := '0';
 
   signal hit_sound : std_logic;
   signal score_sound : std_logic;
@@ -117,6 +123,7 @@ begin
     h4 => h_count(2),
 
     attract => attract,
+    double_paddle_height => double_paddle_height,
 
     paddle_b => paddle_b_1,
     paddle_c => paddle_c_1,
@@ -139,6 +146,8 @@ begin
     h4 => h_count(2),
 
     attract => attract,
+    double_paddle_height => double_paddle_height,
+    training_mode => training_mode,
 
     paddle_b => paddle_b_2,
     paddle_c => paddle_c_2,
