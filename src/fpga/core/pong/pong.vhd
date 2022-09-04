@@ -17,7 +17,10 @@ entity pong is
     -- Configuration
     -- This is configurable via a dip switch. When low, the game will end when the score = 11, when high, it will end at 15
     score_stop_at_15 : in std_logic;
+    -- Added for prevent_coin_reset setting. If true, will not restart game mid-match if the coin insert signal is raised
+    prevent_coin_reset : in std_logic;
 
+    -- Cheats
     -- This isn't functionality in the standard arcade. Many people added this functionality though
     double_paddle_height : in std_logic;
 
@@ -57,6 +60,9 @@ architecture rtl of pong is
   signal reset_speed : std_logic;
   signal miss : std_logic;
   signal stop_game : std_logic;
+
+  signal int_coin_insert : std_logic;
+  signal running : std_logic;
 
   signal hit_sound : std_logic;
   signal score_sound : std_logic;
@@ -163,7 +169,7 @@ begin
     h_blank => h_blank,
 
     attract => attract,
-    coin_insert => coin_insert,
+    coin_insert => int_coin_insert,
     ball_left => ball_left,
     ball_right => ball_right,
 
@@ -271,14 +277,19 @@ begin
     pad_1 => pad_1,
 
     miss => miss,
-    coin_insert => coin_insert,
+    coin_insert => int_coin_insert,
     stop_game => stop_game,
+
+    running => running,
 
     attract => attract,
     serve => serve,
 
     reset_speed => reset_speed
     );
+
+  -- If prevent_coin_reset and game is running, do not reset
+  int_coin_insert <= coin_insert and not (prevent_coin_reset and running);
 
   video_de <= (not h_blank) and (not v_blank);
   video_vs <= v_sync;

@@ -281,6 +281,14 @@ module core_top (
         begin
           score_stop_at_15 <= bridge_wr_data[0:0];
         end
+        32'h00000008:
+        begin
+          disable_p2_on_pad_1 <= bridge_wr_data[0:0];
+        end
+        32'h0000000C:
+        begin
+          prevent_coin_reset <= bridge_wr_data[0:0];
+        end
         32'h00000014:
         begin
           double_paddle_height <= bridge_wr_data[0:0];
@@ -405,12 +413,21 @@ module core_top (
   reg double_paddle_height = 0;
   reg training_mode = 0;
 
+  reg disable_p2_on_pad_1 = 0;
+  reg prevent_coin_reset = 1;
+
   wire video_de_pong;
   wire video_vs_pong;
   wire video_hs_pong;
   wire [23:0] video_rgb_pong;
 
   wire sound;
+
+  wire p2_up;
+  wire p2_down;
+
+  assign p2_up = disable_p2_on_pad_1 ? cont2_key[0] : cont1_key[6] || cont2_key[0];
+  assign p2_down = disable_p2_on_pad_1 ? cont2_key[1] : cont1_key[5] || cont2_key[1];
 
   pong pong (
          .clk_7_159 ( clk_core_7159 ),
@@ -419,11 +436,12 @@ module core_top (
          .p1_up ( cont1_key[0] ),
          .p1_down ( cont1_key[1] ),
 
-         .p2_up ( cont1_key[6] ),
-         .p2_down ( cont1_key[5] ),
+         .p2_up ( p2_up ),
+         .p2_down ( p2_down ),
 
          .coin_insert ( coin_insert ),
          .score_stop_at_15 ( score_stop_at_15 ),
+         .prevent_coin_reset ( prevent_coin_reset ),
          .double_paddle_height ( double_paddle_height ),
          .training_mode ( training_mode ),
 
@@ -436,6 +454,7 @@ module core_top (
          .sound ( sound )
        );
 
+  // Prevent holding of coin insert
   always @(posedge clk_core_7159)
   begin
     coin_insert <= 0;

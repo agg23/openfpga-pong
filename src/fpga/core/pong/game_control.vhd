@@ -12,6 +12,9 @@ entity game_control is
     coin_insert : in std_logic;
     stop_game : in std_logic;
 
+    -- Added for prevent_coin_reset setting
+    running : out std_logic;
+
     attract : out std_logic;
     serve : out std_logic;
 
@@ -26,7 +29,7 @@ architecture rtl of game_control is
   signal e5a_out : std_logic;
   signal b5b_out : std_logic;
 
-  signal running : std_logic := '0';
+  signal running_int : std_logic := '0';
   signal coin_insert_prev : std_logic;
   signal stop_game_prev : std_logic;
 begin
@@ -52,11 +55,13 @@ begin
 
   e6b_out <= coin_insert or miss;
 
-  e5a_out <= running and not stop_game and not timer_f4_out;
+  e5a_out <= running_int and not stop_game and not timer_f4_out;
 
-  attract <= stop_game or not running;
+  attract <= stop_game or not running_int;
   serve <= not b5b_out;
   reset_speed <= e6b_out;
+
+  running <= running_int;
 
   -- Logic taken from https://github.com/MiSTer-devel/Arcade-Pong_MiSTer/blob/master/rtl/game_control.v
   process (clk_7_159)
@@ -64,10 +69,10 @@ begin
     if rising_edge(clk_7_159) then
       if coin_insert_prev = '0' and coin_insert = '1' then
         -- New coin inserted
-        running <= '1';
+        running_int <= '1';
       elsif stop_game_prev = '0' and stop_game = '1' then
         -- Game ending
-        running <= '0';
+        running_int <= '0';
       end if;
 
       coin_insert_prev <= coin_insert;
