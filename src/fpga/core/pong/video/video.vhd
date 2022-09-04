@@ -113,11 +113,11 @@ begin
   process (combined_pads_net_ball, score_video)
   begin
     video <= x"00";
-    if score_video = '1' then
+    if combined_pads_net_ball = '1' then
+      video <= x"FF";
+    elsif score_video = '1' then
       -- TODO: Find right color
       video <= x"BB";
-    elsif combined_pads_net_ball = '1' then
-      video <= x"FF";
     end if;
   end process;
 end architecture;
