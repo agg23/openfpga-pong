@@ -486,28 +486,24 @@ module core_top (
 
   reg hs_prev;
   reg vs_prev;
-  reg de_prev;
-  reg [23:0] rgb_prev;
 
   always @(posedge clk_core_7159)
   begin
     video_de_reg <= 0;
     video_rgb_reg <= 24'h0;
 
-    if (de_prev)
+    if (video_de_pong)
     begin
       video_de_reg <= 1;
 
-      video_rgb_reg <= rgb_prev;
+      video_rgb_reg <= video_rgb_pong;
     end
 
-    // Set HSync and VSync to be high for a single cycle on the falling edge of the HSync and VSync coming out of Pong
-    video_hs_reg <= hs_prev && ~video_hs_pong;
-    video_vs_reg <= vs_prev && ~video_vs_pong;
+    // Set HSync and VSync to be high for a single cycle on the rising edge of the HSync and VSync coming out of Pong
+    video_hs_reg <= ~hs_prev && video_hs_pong;
+    video_vs_reg <= ~vs_prev && video_vs_pong;
     hs_prev <= video_hs_pong;
     vs_prev <= video_vs_pong;
-    de_prev <= video_de_pong;
-    rgb_prev <= video_rgb_pong;
   end
 
 

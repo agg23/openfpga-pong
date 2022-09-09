@@ -8,7 +8,7 @@
           {
             "id": 30,
             "name": "P1 Fine Control",
-            "key": "pad_btn_l"
+            "key": "pad_trig_l"
           },
           {
             "id": 10,
@@ -23,7 +23,7 @@
           {
             "id": 31,
             "name": "P2 Fine Control",
-            "key": "pad_btn_r"
+            "key": "pad_trig_r"
           },
           {
             "id": 20,
