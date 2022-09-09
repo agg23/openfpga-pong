@@ -6,6 +6,11 @@
         "type": "default",
         "mappings": [
           {
+            "id": 30,
+            "name": "P1 Fine Control",
+            "key": "pad_btn_l"
+          },
+          {
             "id": 10,
             "name": "P2 Paddle Up",
             "key": "pad_btn_x"
@@ -14,6 +19,11 @@
             "id": 11,
             "name": "P2 Paddle Down",
             "key": "pad_btn_b"
+          },
+          {
+            "id": 31,
+            "name": "P2 Fine Control",
+            "key": "pad_btn_r"
           },
           {
             "id": 20,

@@ -425,9 +425,11 @@ module core_top (
 
   wire p2_up;
   wire p2_down;
+  wire p2_fine_control;
 
   assign p2_up = disable_p2_on_pad_1 ? cont2_key[0] : cont1_key[6] || cont2_key[0];
   assign p2_down = disable_p2_on_pad_1 ? cont2_key[1] : cont1_key[5] || cont2_key[1];
+  assign p2_fine_control = disable_p2_on_pad_1 ? cont2_key[8] : cont1_key[9] || cont2_key[8];
 
   pong pong (
          .clk_7_159 ( clk_core_7159 ),
@@ -435,9 +437,11 @@ module core_top (
 
          .p1_up ( cont1_key[0] ),
          .p1_down ( cont1_key[1] ),
+         .p1_fine_control ( cont1_key[8] ),
 
          .p2_up ( p2_up ),
          .p2_down ( p2_down ),
+         .p2_fine_control ( p2_fine_control ),
 
          .coin_insert ( coin_insert ),
          .score_stop_at_15 ( score_stop_at_15 ),

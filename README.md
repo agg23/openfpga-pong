@@ -6,9 +6,10 @@ A FPGA implementation of Atari's 1972 arcade game, Pong. This implementation is 
 
 Pong is a two player game that uses potentiometers (rotary dials) for control of each player's paddle. As the Pocket doesn't have rotary dials, we have to make due with its face buttons.
 
-| Player 1      | Player 2                     |
-|---------------|------------------------------|
-| D Pad Up/Down | Face Button Top/Bottom (X/B) |
+| Action          | Player 1      | Player 2                     |
+|-----------------|---------------|------------------------------|
+| Paddle Movement | D Pad Up/Down | Face Button Top/Bottom (X/B) |
+| Fine Movement   | Left Trigger  | Right Trigger                |
 
 Pong also supports the Analogue Pocket Dock, so you can play with two separate controllers. I suggest using the `Use Ctrl 2 for P2` setting described below for the best two controller experience.
 

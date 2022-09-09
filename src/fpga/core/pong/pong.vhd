@@ -9,8 +9,11 @@ entity pong is
 
     p1_up : in std_logic;
     p1_down : in std_logic;
+    p1_fine_control : in std_logic;
+
     p2_up : in std_logic;
     p2_down : in std_logic;
+    p2_fine_control : in std_logic;
 
     coin_insert : in std_logic;
 
@@ -70,7 +73,8 @@ architecture rtl of pong is
   signal ball_left : std_logic;
   signal ball_right : std_logic;
 
-  signal input_count : unsigned (13 downto 0) := 14d"0";
+  signal input_count_p1 : unsigned (15 downto 0) := 16d"0";
+  signal input_count_p2 : unsigned (15 downto 0) := 16d"0";
   signal paddle_pos_1 : unsigned (7 downto 0) := 8d"128";
   signal paddle_pos_2 : unsigned (7 downto 0) := 8d"128";
   signal pad_1 : std_logic;
@@ -298,10 +302,19 @@ begin
 
   -- Controllers
   process (clk_7_159)
+    constant main_speed : unsigned (15 downto 0) := 16x"3FFF";
+    constant fine_speed : unsigned (15 downto 0) := 16x"8FFF";
   begin
     if rising_edge(clk_7_159) then
-      if input_count = 0 then
-        input_count <= b"11" & 12x"CCC";
+      input_count_p1 <= input_count_p1 - 1;
+      input_count_p2 <= input_count_p2 - 1;
+
+      if input_count_p1 = 0 then
+        if p1_fine_control = '1' then
+          input_count_p1 <= fine_speed;
+        else
+          input_count_p1 <= main_speed;
+        end if;
 
         if p1_up = '1' then
           if paddle_pos_1 > 1 then
@@ -311,6 +324,14 @@ begin
           if paddle_pos_1 < 255 then
             paddle_pos_1 <= paddle_pos_1 + 1;
           end if;
+        end if;
+      end if;
+
+      if input_count_p2 = 0 then
+        if p2_fine_control = '1' then
+          input_count_p2 <= fine_speed;
+        else
+          input_count_p2 <= main_speed;
         end if;
 
         if p2_up = '1' then
@@ -323,8 +344,6 @@ begin
           end if;
         end if;
       end if;
-
-      input_count <= input_count - 1;
     end if;
   end process;
 end architecture;
