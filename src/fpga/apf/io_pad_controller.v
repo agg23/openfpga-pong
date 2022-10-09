@@ -8,7 +8,11 @@
 // laws, including, but not limited to, U.S. copyright law. All rights are
 // reserved. By using the APF code you are agreeing to the terms of the End User
 // License Agreement (“EULA”) located at [https://www.analogue.link/pocket-eula]
-// and incorporated herein by reference.
+// and incorporated herein by reference. To the extent any use of the APF requires 
+// application of the MIT License or the GNU General Public License and terms of 
+// this APF Software License Agreement and EULA are inconsistent with such license, 
+// the applicable terms of the MIT License or the GNU General Public License, as 
+// applicable, will prevail.
 
 // THE SOFTWARE IS PROVIDED "AS-IS" AND WE EXPRESSLY DISCLAIM ANY IMPLIED
 // WARRANTIES TO THE FULLEST EXTENT PROVIDED BY LAW, INCLUDING BUT NOT LIMITED TO,
@@ -31,7 +35,7 @@
 // FULLEST EXTENT PERMITTED BY APPLICABLE LAW.
 //
 // pad controller
-// 2020-08-10 Analogue - started
+// 2020-08-17 Analogue
 //
 
 module io_pad_controller (
@@ -41,10 +45,10 @@ input   wire            reset_n,
 
 inout   reg             pad_1wire,
 
-output  reg     [15:0]  cont1_key,
-output  reg     [15:0]  cont2_key,
-output  reg     [15:0]  cont3_key,
-output  reg     [15:0]  cont4_key,
+output  reg     [31:0]  cont1_key,
+output  reg     [31:0]  cont2_key,
+output  reg     [31:0]  cont3_key,
+output  reg     [31:0]  cont4_key,
 output  reg     [31:0]  cont1_joy,
 output  reg     [31:0]  cont2_joy,
 output  reg     [31:0]  cont3_joy,
@@ -138,20 +142,20 @@ always @(posedge clk) begin
             case(cnt)
             0: cont1_key <= rx_word;
             1: cont1_joy <= rx_word;
-            2: cont1_trig <= rx_word;
+            2: cont1_trig <= rx_word[15:0];
             
             3: cont2_key <= rx_word;
             4: cont2_joy <= rx_word;
-            5: cont2_trig <= rx_word;
+            5: cont2_trig <= rx_word[15:0];
             
             6: cont3_key <= rx_word;
             7: cont3_joy <= rx_word;
-            8: cont3_trig <= rx_word;
+            8: cont3_trig <= rx_word[15:0];
             
             9: cont4_key <= rx_word;
             10: cont4_joy <= rx_word;
             11: begin
-                cont4_trig <= rx_word;
+                cont4_trig <= rx_word[15:0];
                 state <= ST_IDLE;   
             end
             endcase

@@ -209,10 +209,10 @@ module core_top (
     //   [ 7: 0] ltrig
     //   [15: 8] rtrig
     //
-    input   wire    [15:0]  cont1_key,
-    input   wire    [15:0]  cont2_key,
-    input   wire    [15:0]  cont3_key,
-    input   wire    [15:0]  cont4_key,
+    input   wire    [31:0]  cont1_key,
+    input   wire    [31:0]  cont2_key,
+    input   wire    [31:0]  cont3_key,
+    input   wire    [31:0]  cont4_key,
     input   wire    [31:0]  cont1_joy,
     input   wire    [31:0]  cont2_joy,
     input   wire    [31:0]  cont3_joy,
@@ -280,10 +280,6 @@ module core_top (
         32'h00000000:
         begin
           score_stop_at_15 <= bridge_wr_data[0:0];
-        end
-        32'h00000008:
-        begin
-          disable_p2_on_pad_1 <= bridge_wr_data[0:0];
         end
         32'h0000000C:
         begin
@@ -406,6 +402,25 @@ module core_top (
 
                   );
 
+  wire [31:0] cont1_key_s;
+  wire [31:0] cont2_key_s;
+
+  synch_2 #(
+    .WIDTH(32)
+  ) cont_1_s (
+    cont1_key,
+    cont1_key_s,
+    clk_core_7159
+  );
+
+  synch_2 #(
+    .WIDTH(32)
+  ) cont_2_s (
+    cont2_key,
+    cont2_key_s,
+    clk_core_7159
+  );
+
   reg prev_button_15 = 0;
   reg coin_insert = 0;
 
@@ -413,7 +428,7 @@ module core_top (
   reg double_paddle_height = 0;
   reg training_mode = 0;
 
-  reg disable_p2_on_pad_1 = 0;
+  wire disable_p2_on_pad_1 = cont1_key_s[31:29] ? 1 : 0;
   reg prevent_coin_reset = 1;
 
   wire video_de_pong;
@@ -427,17 +442,17 @@ module core_top (
   wire p2_down;
   wire p2_fine_control;
 
-  assign p2_up = disable_p2_on_pad_1 ? cont2_key[0] : cont1_key[6] || cont2_key[0];
-  assign p2_down = disable_p2_on_pad_1 ? cont2_key[1] : cont1_key[5] || cont2_key[1];
-  assign p2_fine_control = disable_p2_on_pad_1 ? cont2_key[8] : cont1_key[9] || cont2_key[8];
+  assign p2_up = disable_p2_on_pad_1 ? cont2_key_s[0] : cont1_key_s[6] || cont2_key_s[0];
+  assign p2_down = disable_p2_on_pad_1 ? cont2_key_s[1] : cont1_key_s[5] || cont2_key_s[1];
+  assign p2_fine_control = disable_p2_on_pad_1 ? cont2_key_s[8] : cont1_key_s[9] || cont2_key_s[8];
 
   pong pong (
          .clk_7_159 ( clk_core_7159 ),
          .clk_sync ( clk_sync_28_636 ),
 
-         .p1_up ( cont1_key[0] ),
-         .p1_down ( cont1_key[1] ),
-         .p1_fine_control ( cont1_key[8] ),
+         .p1_up ( cont1_key_s[0] ),
+         .p1_down ( cont1_key_s[1] ),
+         .p1_fine_control ( cont1_key_s[8] ),
 
          .p2_up ( p2_up ),
          .p2_down ( p2_down ),
@@ -462,9 +477,9 @@ module core_top (
   always @(posedge clk_core_7159)
   begin
     coin_insert <= 0;
-    if (!prev_button_15 && cont1_key[15])
+    if (!prev_button_15 && cont1_key_s[15])
       coin_insert <= 1;
-    prev_button_15 = cont1_key[15];
+    prev_button_15 = cont1_key_s[15];
   end
 
   assign video_rgb_clock = clk_core_7159;
