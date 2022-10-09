@@ -428,7 +428,7 @@ module core_top (
   reg double_paddle_height = 0;
   reg training_mode = 0;
 
-  wire disable_p2_on_pad_1 = cont1_key_s[31:29] ? 1 : 0;
+  wire disable_p2_on_pad_1 = cont1_key_s[31:29] > 0 ? 1 : 0;
   reg prevent_coin_reset = 1;
 
   wire video_de_pong;
