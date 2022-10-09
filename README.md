@@ -22,7 +22,6 @@ The original hardware only has one configurable setting available via a toggle s
 | Setting                 | Action                                                                                                                           |
 |-------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | Win at 11/15 points     | Configures the game to end at either 11 or 15 points. When set (the checkbox is white), the game will end after 15 points        |
-| Use Ctrl 2 for P2       | Allows input for the second paddle only on the second controller (requires the Dock). This prevents player 1 from cheating       |
 | Prevent coin reset      | Pong resets by default when a coin is inserted, no matter the play state. This prevents the reset unless the game is over        |
 | Cheat: Extended paddles | Doubles the height of the paddles. This modification was performed to many machines to make it easier                            |
 | Cheat: Training mode    | Configures the Player 2 paddle to fill most of the side of the screen. The only way to score is to hit the ball above the paddle |
