@@ -14,17 +14,6 @@
         "value": 1
       },
       {
-        "id": 5,
-        "name": "Use Ctrl 2 for P2",
-        "type": "check",
-        "enabled": true,
-        "persist": true,
-        "writeonly": true,
-        "address": "0x8",
-        "defaultval": 0,
-        "value": 1
-      },
-      {
         "id": 6,
         "name": "Prevent coin reset",
         "type": "check",
