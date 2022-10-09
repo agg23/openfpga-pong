@@ -1,0 +1,73 @@
+{
+  "interact": {
+    "magic": "APF_VER_1",
+    "variables": [
+      {
+        "id": 1,
+        "name": "Win at 11/15 points",
+        "type": "check",
+        "enabled": true,
+        "persist": true,
+        "writeonly": true,
+        "address": "0x0",
+        "defaultval": 0,
+        "value": 1
+      },
+      {
+        "id": 5,
+        "name": "Use Ctrl 2 for P2",
+        "type": "check",
+        "enabled": true,
+        "persist": true,
+        "writeonly": true,
+        "address": "0x8",
+        "defaultval": 0,
+        "value": 1
+      },
+      {
+        "id": 6,
+        "name": "Prevent coin reset",
+        "type": "check",
+        "enabled": true,
+        "persist": true,
+        "writeonly": true,
+        "address": "0xC",
+        "defaultval": 1,
+        "value": 1
+      },
+      {
+        "id": 10,
+        "name": "Cheats",
+        "type": "action",
+        "enabled": false,
+        "persist": false,
+        "writeonly": true,
+        "address": "0x10000",
+        "value": 0
+      },
+      {
+        "id": 11,
+        "name": "Extended paddles",
+        "type": "check",
+        "enabled": true,
+        "persist": true,
+        "writeonly": true,
+        "address": "0x14",
+        "defaultval": 0,
+        "value": 1
+      },
+      {
+        "id": 12,
+        "name": "Training mode",
+        "type": "check",
+        "enabled": true,
+        "persist": true,
+        "writeonly": true,
+        "address": "0x18",
+        "defaultval": 0,
+        "value": 1
+      }
+    ],
+    "messages": []
+  }
+}
